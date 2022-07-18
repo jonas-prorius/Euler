@@ -8,23 +8,23 @@ namespace EulerDb.Entities
     {
         protected internal Factor()
         {
-            Id = new();
+            //Id = new();
             Number = new();
             FactorNumber = new();
         }
 
         public Factor(Number number, Number factorNumber)
         {
-            Id = new();
+            //Id = new();
             Number = number;
             FactorNumber = factorNumber;
         }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        [Column("id", Order = 1)]
-        public long Id { get; private set; }
+        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[Required]
+        //[Column("id", Order = 1)]
+        //public long Id { get; private set; }
 
         [Required]
         [Column("number_id")]

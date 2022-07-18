@@ -27,6 +27,10 @@ namespace EulerDb.Entities
         [Column("id", Order = 1)]
         public int Id { get; private set; }
 
+        [Required]
+        [Column("is_solved")]
+        public bool IsSolved { get; set; }
+
         public virtual IList<Test> Tests { get; set; }
     }
 }

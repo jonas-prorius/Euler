@@ -17,7 +17,7 @@ namespace ProblemSolver.Problems
         }
     }
 
-    public class Problem0007Config : IProblemConfig
+    public class Problem0007Config : IProblemParameters
     {
         public long PrimeNo { get; set; }
     }

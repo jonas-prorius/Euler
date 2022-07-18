@@ -5,7 +5,7 @@ namespace EulerDb
 {
     public class EulerDbContext : DbContext
     {
-        //public DbSet<Factor> Factors { get; set; }
+        public DbSet<Factor> Factors { get; set; }
         public DbSet<Number> Numbers { get; set; }
 
         public DbSet<Problem> Problems { get; set; }
@@ -40,7 +40,7 @@ namespace EulerDb
             modelBuilder.Entity<Number>()
                 .HasMany(n => n.FactorToNumbers)
                 .WithMany(fn => fn.Factors)
-                .UsingEntity(f => f.ToTable("factor"));
+                .UsingEntity<Factor>(f => f.ToTable("factor"));
 
             modelBuilder.Entity<Problem>().HasKey(p => p.Id);
 

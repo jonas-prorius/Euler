@@ -21,18 +21,7 @@ namespace EulerDb.Entities
                 IsPrimeNumber = false;
         }
 
-        public Number(long id)
-        {
-            Id = id;
-
-            Factors = new List<Number>();
-            FactorToNumbers = new List<Number>();
-
-            if (Id < 1)
-                IsPrimeNumber = false;
-        }
-
-        public Number(long id, bool? isPrimeNumber)
+        public Number(long id, bool? isPrimeNumber = null)
         {
             Id = id;
             IsPrimeNumber = isPrimeNumber;
@@ -42,6 +31,8 @@ namespace EulerDb.Entities
 
             if (Id < 1)
                 IsPrimeNumber = false;
+            else
+                IsPrimeNumber = isPrimeNumber;
         }
 
         [Key]

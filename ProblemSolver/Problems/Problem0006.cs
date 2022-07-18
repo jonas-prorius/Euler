@@ -37,7 +37,7 @@ namespace ProblemSolver.Problems
         }
     }
 
-    public class Problem0006Config : IProblemConfig
+    public class Problem0006Config : IProblemParameters
     {
         public int NumbersToRun { get; set; }
     }

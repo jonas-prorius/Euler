@@ -46,7 +46,7 @@ namespace ProblemSolver.Problems
         }
     }
 
-    public class Problem0014Config : IProblemConfig
+    public class Problem0014Config : IProblemParameters
     {
         public long MinStart { get; set; }
         public long MaxStart { get; set; }

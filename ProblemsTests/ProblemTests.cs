@@ -1,4 +1,6 @@
-﻿namespace ProblemsTests
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace ProblemsTests
 {
     [TestClass]
     public class ProblemTests

@@ -44,7 +44,7 @@ namespace ProblemSolver.Problems
         }
     }
 
-    public class Problem0008Config : IProblemConfig
+    public class Problem0008Config : IProblemParameters
     {
         public int SampleSize { get; set; }
     }

@@ -19,7 +19,7 @@ namespace ProblemSolver.Problems
         }
     }
 
-    public class Problem0010Config : IProblemConfig
+    public class Problem0010Config : IProblemParameters
     {
         public long Roof { get; set; }
     }

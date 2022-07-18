@@ -14,9 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\EulerDb\EulerDb.csproj" />
     <ProjectReference Include="..\EulerDomain\EulerDomain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Workers\" />
+    <ProjectReference Include="..\ProblemSolver\ProblemSolver.csproj" />
   </ItemGroup>
 </Project>

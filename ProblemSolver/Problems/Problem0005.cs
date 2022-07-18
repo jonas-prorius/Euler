@@ -35,7 +35,7 @@ namespace ProblemSolver.Problems
         }
     }
 
-    public class Problem0005Config : IProblemConfig
+    public class Problem0005Config : IProblemParameters
     {
         public long Numbers { get; set; }
     }

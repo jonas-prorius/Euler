@@ -31,7 +31,7 @@ namespace ProblemSolver.Problems
         }
     }
 
-    public class Problem0004Config : IProblemConfig
+    public class Problem0004Config : IProblemParameters
     {
         public int Digits { get; set; }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using EulerDb;
 using EulerDomain;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProblemSolver.Problems;
 
 namespace ProblemsTests
@@ -12,6 +13,10 @@ namespace ProblemsTests
         public async Task Problem0001Init()
         {
             var repo = new EulerRepo(new EulerDbContextFactory(@"Server=srv-home,1435;Database=Euler;User Id=sa;Password=mssql-euler2;"));
+
+            foreach (var test in repo.Tests.GetByProblemId(1))
+                Assert.AreEqual(test.Answer, new Problem0001().Run(test.GetParameters<Problem0001Config>(), repo));
+
             Assert.AreEqual(23, await new Problem0001().Run(new Problem0001Config { MaxNumber = 9 }, repo));
         }
 

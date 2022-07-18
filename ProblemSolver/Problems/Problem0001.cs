@@ -24,7 +24,7 @@ namespace ProblemSolver.Problems
         }
     }
 
-    public class Problem0001Config : IProblemConfig
+    public class Problem0001Config : IProblemParameters
     {
         public long MaxNumber { get; set; }
     }

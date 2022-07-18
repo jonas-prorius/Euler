@@ -11,10 +11,4 @@
     <ProjectReference Include="..\EulerMath\EulerMath.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Problems\Problem0011.data.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
