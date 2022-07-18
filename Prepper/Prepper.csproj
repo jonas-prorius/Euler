@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <UserSecretsId>dotnet-Prepper-9145688A-5540-4F36-B694-C1F20F24E455</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EulerDb\EulerDb.csproj" />
+    <ProjectReference Include="..\EulerDomain\EulerDomain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Workers\" />
+  </ItemGroup>
+</Project>
