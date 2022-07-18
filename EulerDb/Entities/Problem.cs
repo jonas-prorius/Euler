@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EulerDb.Entities
 {
-    [Table("question")]
+    [Table("problem")]
     public class Problem
     {
         protected internal Problem()

@@ -14,11 +14,11 @@ namespace ProblemSolver.Problems
     ///  <p>Which starting number, under one million, produces the longest chain?</p>
     ///  <p class="note"><b>NOTE:</b> Once the chain starts the terms are allowed to go above one million.</p>
     /// </summary>
-    public class Problem0014 : IProblem<Problem0014Config, long>
+    public class Problem0014 : IProblem<Problem0014Config>
     {
         public int ProblemId => 14;
 
-        public async Task<long> Run(Problem0014Config config, EulerRepo repo)
+        public async Task<string> Run(Problem0014Config config, EulerRepo repo)
         {
             Dictionary<long, List<long>> results = new();
             for (long i = config.MinStart; i <= config.MaxStart; i++)
@@ -35,7 +35,7 @@ namespace ProblemSolver.Problems
                 else
                     results[count].Add(i);
             }
-            return results[results.Keys.Max()].First();
+            return results[results.Keys.Max()].First().ToString();
         }
 
         private static long NextCollatz(long current)

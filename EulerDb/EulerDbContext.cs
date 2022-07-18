@@ -11,7 +11,10 @@ namespace EulerDb
         public DbSet<Problem> Problems { get; set; }
         public DbSet<Test> Tests { get; set; }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
         public EulerDbContext(DbContextOptions<EulerDbContext> options) : base(options)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             Database.EnsureCreated();
         }
@@ -21,26 +24,29 @@ namespace EulerDb
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Factor>().HasKey(f => f.Id);
-            //modelBuilder.Entity<Factor>()
-            //    .HasOne(f => f.Number)
-            //    .WithMany(n => n.Factors)
-            //    .HasForeignKey(f => f.NumberId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-            //modelBuilder.Entity<Factor>()
-            //    .HasOne(f => f.FactorNumber)
-            //    .WithMany(fn => fn.FactorToNumbers)
-            //    .HasForeignKey(f => f.FactorNumberId)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Factor>().HasKey(f => new { f.NumberId, f.FactorNumberId });
+            modelBuilder.Entity<Factor>()
+                .HasOne(f => f.Number)
+                .WithMany(n => n.Factors)
+                .HasForeignKey(f => f.FactorNumberId)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Factor>()
+                .HasOne(f => f.FactorNumber)
+                .WithMany(n => n.FactorToNumbers)
+                .HasForeignKey(f => f.NumberId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Number>().HasKey(n => n.Id);
             modelBuilder.Entity<Number>()
                 .HasMany(n => n.Factors)
-                .WithMany(f => f.FactorToNumbers);
+                .WithOne(f => f.Number)
+                .HasForeignKey(n => n.FactorNumberId)
+                .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Number>()
                 .HasMany(n => n.FactorToNumbers)
-                .WithMany(fn => fn.Factors)
-                .UsingEntity<Factor>(f => f.ToTable("factor"));
+                .WithOne(f => f.FactorNumber)
+                .HasForeignKey(n => n.NumberId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Problem>().HasKey(p => p.Id);
 

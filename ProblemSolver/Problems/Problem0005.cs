@@ -10,20 +10,20 @@ namespace ProblemSolver.Problems
     /// 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
     /// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
     /// </summary>
-    public class Problem0005 : IProblem<Problem0005Config, long?>
+    public class Problem0005 : IProblem<Problem0005Config>
     {
         public int ProblemId => 5;
 
-        public Task<long?> Run(Problem0005Config config, EulerRepo repo)
+        public Task<string> Run(Problem0005Config config, EulerRepo repo)
         {
             var factors = CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
             long start = factors[0] * factors[1];
             for (long? i = start; i < factors.Product(); i += factors.Last())
             {
                 if (factors.All(f => i % f == 0))
-                    return Task.FromResult(i);
+                    return Task.FromResult(i.ToString());
             }
-            return Task.FromResult(default(long?));
+            return Task.FromResult(default(string));
         }
 
         private static List<long> CreateLongList(long from, long to, long interval = 1)

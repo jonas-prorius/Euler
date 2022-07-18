@@ -8,14 +8,14 @@ namespace ProblemSolver.Problems
     ///  The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
     ///  Find the sum of all the primes below two million.
     /// </summary>
-    public class Problem0010 : IProblem<Problem0010Config, long>
+    public class Problem0010 : IProblem<Problem0010Config>
     {
         public int ProblemId => 10;
 
-        public async Task<long> Run(Problem0010Config config, EulerRepo repo)
+        public async Task<string> Run(Problem0010Config config, EulerRepo repo)
         {
             await repo.Numbers.EnsurePrimesCalculatedUntilAsync(config.Roof);
-            return (await repo.Numbers.GetRangeAsync(0, config.Roof)).Where(n => n.IsPrimeNumber ?? false).Sum(n => n.Id);
+            return (await repo.Numbers.GetRangeAsync(0, config.Roof)).Where(n => n.IsPrimeNumber ?? false).Sum(n => n.Id).ToString();
         }
     }
 

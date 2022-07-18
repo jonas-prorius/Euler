@@ -5,7 +5,7 @@ namespace EulerMath
 {
     internal static class Permutator
     {
-        internal static IEnumerable<IEnumerable<T>> Combine<T>(IEnumerable<T> items, bool ignoreOrder, bool repeatItems)
+        internal static IEnumerable<IEnumerable<T>> Combine<T>(IEnumerable<T> items, bool ignoreOrder)
         {
             IEnumerable<IEnumerable<T>> result = new List<List<T>>();
             foreach (var item in items)

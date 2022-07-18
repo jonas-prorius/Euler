@@ -26,12 +26,16 @@ namespace EulerDb.Entities
         //[Column("id", Order = 1)]
         //public long Id { get; private set; }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Required]
-        [Column("number_id")]
+        [Column("number_id", Order = 1)]
         public long NumberId { get; private set; }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Required]
-        [Column("factor_number_id")]
+        [Column("factor_number_id", Order = 2)]
         public long FactorNumberId { get; private set; }
 
         public virtual Number Number { get; set; }

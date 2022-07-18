@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using EulerDb;
 using EulerMath;
-using Microsoft.EntityFrameworkCore;
 using DbE = EulerDb.Entities;
 
 namespace EulerDomain.Models
@@ -31,32 +30,32 @@ namespace EulerDomain.Models
                 IsPrimeNumber = number.IsPrimeNumber.Value;
         }
 
-        public new IEnumerable<Number> Factors
-        {
-            get
-            {
-                if (base.Factors.Any())
-                    return base.Factors.Select(f => new Number(f, _dbFactory));
+        //public new IEnumerable<Number> Factors
+        //{
+        //    get
+        //    {
+        //        if (base.Factors.Any())
+        //            return base.Factors.Select(f => new Number(f, _dbFactory));
 
-                if (IsPrimeNumber ?? false)
-                    return Array.Empty<Number>();
+        //        if (IsPrimeNumber ?? false)
+        //            return Array.Empty<Number>();
 
-                using (EulerDbContext? db = _dbFactory.CreateDbContext())
-                {
-                    List<DbE.Number>? potentialFactors = db.Numbers
-                        .Where(n => n.IsPrimeNumber ?? true && n.Id < Id / 2)
-                        .ToList();
+        //        using (EulerDbContext? db = _dbFactory.CreateDbContext())
+        //        {
+        //            List<DbE.Number>? potentialFactors = db.Numbers
+        //                .Where(n => n.IsPrimeNumber ?? true && n.Id < Id / 2)
+        //                .ToList();
 
-                    foreach (var potentialFactor in potentialFactors)
-                        if (this.IsDivisibleBy(potentialFactor.Id))
-                            base.Factors.Add(potentialFactor);
+        //            foreach (var potentialFactor in potentialFactors)
+        //                if (this.IsDivisibleBy(potentialFactor.Id))
+        //                    base.Factors.Add(potentialFactor);
 
-                    db.SaveChanges();
-                }
+        //            db.SaveChanges();
+        //        }
 
-                return base.Factors.Select(f => new Number(f, _dbFactory));
-            }
-        }
+        //        return base.Factors.Select(f => new Number(f, _dbFactory));
+        //    }
+        //}
     }
 
     public static class NumberExtensions

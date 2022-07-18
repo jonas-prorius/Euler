@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EulerDb;
-using DbE = EulerDb.Entities;
 using EulerDomain.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
+using DbE = EulerDb.Entities;
 
 namespace EulerDomain.Repos
 {

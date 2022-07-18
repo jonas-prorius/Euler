@@ -1,15 +1,9 @@
-﻿using EulerDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using EulerDb;
-
-using EulerMath;
-using Microsoft.EntityFrameworkCore;
-using DbE = EulerDb.Entities;
-using Newtonsoft.Json;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using EulerDb;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using DbE = EulerDb.Entities;
 
 namespace EulerDomain.Models
 {

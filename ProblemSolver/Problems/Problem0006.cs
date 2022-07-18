@@ -14,17 +14,17 @@ namespace ProblemSolver.Problems
     /// Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is $3025 - 385 = 2640$.
     /// Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
     /// </summary>
-    public class Problem0006 : IProblem<Problem0006Config, long>
+    public class Problem0006 : IProblem<Problem0006Config>
     {
         public int ProblemId => 6;
 
-        public Task<long> Run(Problem0006Config config, EulerRepo repo)
+        public Task<string> Run(Problem0006Config config, EulerRepo repo)
         {
             var numbers = CreateLongList(1, config.NumbersToRun);
             long sumSquare = (long)Math.Pow(numbers.Sum(), 2);
             long squareSum = numbers.Sum(n => (long)Math.Pow(n, 2));
 
-            return Task.FromResult(Math.Abs(sumSquare - squareSum));
+            return Task.FromResult(Math.Abs(sumSquare - squareSum).ToString());
         }
 
         private static List<long> CreateLongList(long from, long to, long interval = 1)

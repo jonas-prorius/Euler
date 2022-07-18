@@ -8,11 +8,11 @@ namespace ProblemSolver.Problems
     /// 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...
     /// By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
     /// </summary>
-    public class Problem0002 : IProblem<Problem0002Config, long>
+    public class Problem0002 : IProblem<Problem0002Config>
     {
         public int ProblemId => 2;
 
-        public Task<long> Run(Problem0002Config config, EulerRepo repo)
+        public Task<string> Run(Problem0002Config config, EulerRepo repo)
         {
             long e1 = 1;
             long e2 = 2;
@@ -27,7 +27,7 @@ namespace ProblemSolver.Problems
                     sum += e3;
             }
 
-            return Task.FromResult(sum);
+            return Task.FromResult(sum.ToString());
         }
     }
 

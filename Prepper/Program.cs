@@ -1,8 +1,8 @@
 ﻿using EulerDb;
+using EulerDomain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EulerDomain;
 using Prepper.Workers;
 
 namespace Prepper

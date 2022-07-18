@@ -14,8 +14,8 @@ namespace EulerDb.Entities
         {
             Id = new();
 
-            Factors = new List<Number>();
-            FactorToNumbers = new List<Number>();
+            Factors = new List<Factor>();
+            FactorToNumbers = new List<Factor>();
 
             if (Id < 1)
                 IsPrimeNumber = false;
@@ -26,8 +26,8 @@ namespace EulerDb.Entities
             Id = id;
             IsPrimeNumber = isPrimeNumber;
 
-            Factors = new List<Number>();
-            FactorToNumbers = new List<Number>();
+            Factors = new List<Factor>();
+            FactorToNumbers = new List<Factor>();
 
             if (Id < 1)
                 IsPrimeNumber = false;
@@ -44,9 +44,11 @@ namespace EulerDb.Entities
         [Column("is_prime_number")]
         public bool? IsPrimeNumber { get; set; }
 
-        public virtual IList<Number> Factors { get; set; }
+        //[ForeignKey("factor_number_id")]
+        public virtual IList<Factor> Factors { get; set; }
 
-        public virtual IList<Number> FactorToNumbers { get; set; }
+        //[ForeignKey("number_id")]
+        public virtual IList<Factor> FactorToNumbers { get; set; }
 
         public void SetPrime(IList<Number> allSmallerPrimes)
         {
@@ -56,7 +58,8 @@ namespace EulerDb.Entities
             if (allSmallerPrimes?.Any(n => !n.IsPrimeNumber.HasValue) ?? false)
                 throw new Exception();
 
-            IsPrimeNumber = Id.IsPrime(allSmallerPrimes.Select(p => p.Id).ToList());
+            if (allSmallerPrimes != null)
+                IsPrimeNumber = Id.IsPrime(allSmallerPrimes.Select(p => p.Id).ToList());
         }
     }
 }
