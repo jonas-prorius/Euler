@@ -16,7 +16,8 @@ namespace ProblemSolver.Problems
         {
             await repo.Numbers.EnsurePrimesCalculatedUntilAsync(config.Number);
             var n = repo.Numbers.Get(config.Number);
-            var nf = n.Factors.Max(f => f.FactorNumberId);
+            var f = n.Factors;
+            var nf = f.Max();
             return nf.ToString();
         }
     }

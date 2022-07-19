@@ -100,7 +100,7 @@ namespace ProblemsTests
         }
 
         [TestMethod]
-        public async Task Problem0014nit()
+        public async Task Problem0014Init()
         {
             var repo = new EulerRepo(new EulerDbContextFactory(@"Server=srv-home,1435;Database=Euler;User Id=sa;Password=mssql-euler2;"));
 

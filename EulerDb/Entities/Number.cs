@@ -44,10 +44,8 @@ namespace EulerDb.Entities
         [Column("is_prime_number")]
         public bool? IsPrimeNumber { get; set; }
 
-        //[ForeignKey("factor_number_id")]
         public virtual IList<Factor> Factors { get; set; }
 
-        //[ForeignKey("number_id")]
         public virtual IList<Factor> FactorToNumbers { get; set; }
 
         public void SetPrime(IList<Number> allSmallerPrimes)
