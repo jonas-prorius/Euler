@@ -6,7 +6,7 @@ namespace EulerMath
 {
     public static class Prime
     {
-        public static bool IsPrime(this long number, IList<long> allSmallerPrimes)
+        public static bool IsPrime(this long number, IEnumerable<long> allSmallerPrimes)
         {
             if (number < 2)
                 return false;
@@ -19,7 +19,7 @@ namespace EulerMath
 
         public static bool IsPrime(this long number)
         {
-            if (number < 2)
+            if (number <= 1)
                 return false;
 
             if (number == 2 || number == 3)
@@ -28,7 +28,7 @@ namespace EulerMath
             if (number.IsEven())
                 return false;
 
-            for (long i = 5; i <= Math.Sqrt(number); i += 2)
+            for (long i = 3; i <= Math.Sqrt(number); i += 2)
                 if (number % i == 0)
                     return false;
 

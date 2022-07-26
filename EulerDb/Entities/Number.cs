@@ -44,20 +44,11 @@ namespace EulerDb.Entities
         [Column("is_prime_number")]
         public bool? IsPrimeNumber { get; set; }
 
+        [Column("has_factors")]
+        public bool? HasFactors { get; set; }
+
         public virtual IList<Factor> Factors { get; set; }
 
         public virtual IList<Factor> FactorToNumbers { get; set; }
-
-        public void SetPrime(IList<Number> allSmallerPrimes)
-        {
-            if (IsPrimeNumber.HasValue)
-                return;
-
-            if (allSmallerPrimes?.Any(n => !n.IsPrimeNumber.HasValue) ?? false)
-                throw new Exception();
-
-            if (allSmallerPrimes != null)
-                IsPrimeNumber = Id.IsPrime(allSmallerPrimes.Select(p => p.Id).ToList());
-        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using EulerDomain;
-using EulerDomain.Models;
+using EulerDomain.Repos;
 
 namespace ProblemSolver.Problems
 {
@@ -13,20 +13,17 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 1;
 
-        public async Task<string> Run(Problem0001Config config, EulerRepo repo)
+        public Task<string> Run(Problem0001Config config, EulerRepo repo)
         {
-            await repo.Numbers.EnsureCreatedUntilAsync(config.MaxNumber);
-
-            return (await repo.Numbers
-                .GetRangeAsync(0, config.MaxNumber))
-                .Where(n => n.IsDivisibleBy(3) || n.IsDivisibleBy(5))
-                .Sum(n => n.Id)
-                .ToString();
+            return Task.FromResult(Enumerable.Range(0, config.MaxNumber + 1)
+                .Where(n => n % 3 == 0 || n % 5 == 0)
+                .Sum()
+                .ToString());
         }
     }
 
     public class Problem0001Config : IProblemParameters
     {
-        public long MaxNumber { get; set; }
+        public int MaxNumber { get; set; }
     }
 }

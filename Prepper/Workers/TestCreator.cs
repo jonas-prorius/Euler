@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using EulerDb;
 using EulerDb.Entities;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ProblemSolver.Problems;
 

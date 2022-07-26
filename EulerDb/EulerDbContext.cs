@@ -28,24 +28,24 @@ namespace EulerDb
             modelBuilder.Entity<Factor>()
                 .HasOne(f => f.Number)
                 .WithMany(n => n.Factors)
-                .HasForeignKey(f => f.FactorNumberId)
+                .HasForeignKey(f => f.NumberId)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Factor>()
                 .HasOne(f => f.FactorNumber)
                 .WithMany(n => n.FactorToNumbers)
-                .HasForeignKey(f => f.NumberId)
+                .HasForeignKey(f => f.FactorNumberId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Number>().HasKey(n => n.Id);
             modelBuilder.Entity<Number>()
                 .HasMany(n => n.Factors)
                 .WithOne(f => f.Number)
-                .HasForeignKey(n => n.FactorNumberId)
+                .HasForeignKey(f => f.NumberId)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Number>()
                 .HasMany(n => n.FactorToNumbers)
                 .WithOne(f => f.FactorNumber)
-                .HasForeignKey(n => n.NumberId)
+                .HasForeignKey(f => f.FactorNumberId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Problem>().HasKey(p => p.Id);

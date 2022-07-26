@@ -14,8 +14,7 @@ namespace ProblemSolver.Problems
 
         public async Task<string> Run(Problem0010Config config, EulerRepo repo)
         {
-            await repo.Numbers.EnsurePrimesCalculatedUntilAsync(config.Roof);
-            return (await repo.Numbers.GetRangeAsync(0, config.Roof)).Where(n => n.IsPrimeNumber ?? false).Sum(n => n.Id).ToString();
+            return (await repo.Numbers.GetPrimesUntilAsync(config.Roof)).Sum().ToString();
         }
     }
 

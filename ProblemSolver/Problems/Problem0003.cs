@@ -14,11 +14,7 @@ namespace ProblemSolver.Problems
 
         public async Task<string> Run(Problem0003Config config, EulerRepo repo)
         {
-            await repo.Numbers.EnsurePrimesCalculatedUntilAsync(config.Number);
-            var n = repo.Numbers.Get(config.Number);
-            var f = n.Factors;
-            var nf = f.Max();
-            return nf.ToString();
+            return (await repo.Numbers.GetFactorsAsync(config.Number)).Max().ToString();
         }
     }
 

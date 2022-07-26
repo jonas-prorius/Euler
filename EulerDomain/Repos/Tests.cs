@@ -2,39 +2,43 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EulerDb;
-using EulerDomain.Models;
+using EulerDb.Entities;
 
 namespace EulerDomain.Repos
 {
     public class Tests
     {
+        #region Fields
+
         private readonly EulerDbContextFactory _dbFactory;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Tests(EulerDbContextFactory dbFactory)
         {
             _dbFactory = dbFactory;
         }
 
+        #endregion Constructors
+
+        #region Public Methods
+
         public Test Get(int id)
         {
             using (var db = _dbFactory.CreateDbContext())
             {
-                return new Test(db.Tests.First(t => t.Id == id), _dbFactory);
+                return db.Tests.First(t => t.Id == id);
             }
         }
-
-        //public List<Test> GetByProblem(Problem problem, bool? isProblem = null, bool? isSolved = null)
-        //{
-        //    return GetByProblemId(problem.Id, isProblem, isSolved);
-        //}
 
         public List<Test> GetByProblemId(long problemId, bool? isProblem = null, bool? isSolved = null)
         {
             using (var db = _dbFactory.CreateDbContext())
             {
                 IQueryable<Test>? tests = db.Tests
-                    .Where(t => t.ProblemId == problemId)
-                    .Select(t => new Test(t, _dbFactory));
+                    .Where(t => t.ProblemId == problemId);
 
                 if (isProblem.HasValue)
                     tests = tests.Where(t => t.IsProblem == isProblem.Value);
@@ -50,7 +54,7 @@ namespace EulerDomain.Repos
         {
             using (var db = _dbFactory.CreateDbContext())
             {
-                db.Add(test);
+                db.Tests.Add(test);
                 db.SaveChanges();
             }
         }
@@ -59,9 +63,16 @@ namespace EulerDomain.Repos
         {
             using (var db = _dbFactory.CreateDbContext())
             {
-                await db.AddAsync(test);
+                await db.Tests.AddAsync(test);
                 await db.SaveChangesAsync();
             }
         }
+
+        #endregion Public Methods
+
+        //public List<Test> GetByProblem(Problem problem, bool? isProblem = null, bool? isSolved = null)
+        //{
+        //    return GetByProblemId(problem.Id, isProblem, isSolved);
+        //}
     }
 }

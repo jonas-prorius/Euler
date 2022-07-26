@@ -21,6 +21,7 @@ namespace Prepper
                 .ConfigureServices(services =>
                 {
                     services.AddHostedService<TestCreator>();
+                    services.AddHostedService<EnsureNumbersExist>();
 
                     services.AddDbContextFactory<EulerDbContext>(options
                         => options.UseSqlServer(connectionString), ServiceLifetime.Transient);
