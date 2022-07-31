@@ -11,15 +11,15 @@ namespace EulerDomain.Repos
     {
         #region Fields
 
-        private readonly EulerDbContextFactory _dbFactory;
+        private readonly EulerDbContext _dbContext;
 
         #endregion Fields
 
         #region Constructors
 
-        public Problems(EulerDbContextFactory dbFactory)
+        public Problems(EulerDbContext dbContext)
         {
-            _dbFactory = dbFactory;
+            _dbContext = dbContext;
         }
 
         #endregion Constructors
@@ -28,28 +28,22 @@ namespace EulerDomain.Repos
 
         public List<Problem> GetAll(bool? isSolved = null)
         {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                IEnumerable<Problem> problems = db.Problems;
+            IEnumerable<Problem> problems = _dbContext.Problems;
 
-                if (isSolved.HasValue)
-                    problems = problems.Where(p => p.IsSolved == isSolved.Value);
+            if (isSolved.HasValue)
+                problems = problems.Where(p => p.IsSolved == isSolved.Value);
 
-                return problems.ToList();
-            }
+            return problems.ToList();
         }
 
         public async Task SetIsSolvedAsync(int problemId, bool isSolved)
         {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                var problem = await db.Problems
-                    .FirstAsync(p => p.Id == problemId);
+            var problem = await _dbContext.Problems
+                .FirstAsync(p => p.Id == problemId);
 
-                problem.IsSolved = isSolved;
+            problem.IsSolved = isSolved;
 
-                await db.SaveChangesAsync();
-            }
+            await _dbContext.SaveChangesAsync();
         }
 
         #endregion Public Methods

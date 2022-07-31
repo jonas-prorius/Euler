@@ -10,20 +10,17 @@ namespace EulerDomain
         public Problems Problems { get; }
         public Tests Tests { get; }
 
-        private readonly EulerDbContextFactory _dbFactory;
+        private readonly EulerDbContext _dbContext;
 
         public EulerRepo(EulerDbContextFactory dbFactory)
         {
-            _dbFactory = dbFactory;
-            Numbers = new Numbers(_dbFactory);
-            Problems = new Problems(_dbFactory);
-            Tests = new Tests(_dbFactory);
+            _dbContext = dbFactory.CreateDbContext();
+            Numbers = new Numbers(_dbContext);
+            Problems = new Problems(_dbContext);
+            Tests = new Tests(_dbContext);
 
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                if (!db.Numbers.Any())
-                    Numbers.Add(0);
-            }
+            if (!_dbContext.Numbers.Any())
+                Numbers.Add(0);
         }
     }
 }

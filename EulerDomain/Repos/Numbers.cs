@@ -13,15 +13,15 @@ namespace EulerDomain.Repos
     {
         #region Fields
 
-        private readonly EulerDbContextFactory _dbFactory;
+        private readonly EulerDbContext _dbContext;
 
         #endregion Fields
 
         #region Constructors
 
-        public Numbers(EulerDbContextFactory dbFactory)
+        public Numbers(EulerDbContext dbContext)
         {
-            _dbFactory = dbFactory;
+            _dbContext = dbContext;
         }
 
         #endregion Constructors
@@ -30,138 +30,118 @@ namespace EulerDomain.Repos
 
         public void EnsureCreatedUntil(long number)
         {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                IQueryable<long>? existing = db.Numbers
-                    .Where(n => 0 < n.Id && n.Id <= number)
-                    .Select(n => n.Id);
+            IQueryable<long>? existing = _dbContext.Numbers
+                .Where(n => 0 < n.Id && n.Id <= number)
+                .Select(n => n.Id);
 
-                for (long l = 0; l <= number; l++)
-                    if (!existing.Contains(l))
-                        db.Numbers.Add(new Number(l));
+            for (long l = 0; l <= number; l++)
+                if (!existing.Contains(l))
+                    _dbContext.Numbers.Add(new Number(l));
 
-                db.SaveChanges();
-            }
+            _dbContext.SaveChanges();
         }
 
         public async Task EnsureCreatedUntilAsync(long id)
         {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                IQueryable<long>? existing = db.Numbers
-                    .Where(n => 0 < n.Id && n.Id <= id)
-                    .Select(n => n.Id);
+            IQueryable<long>? existing = _dbContext.Numbers
+                .Where(n => 0 < n.Id && n.Id <= id)
+                .Select(n => n.Id);
 
-                if (await existing.CountAsync() == id)
-                    return;
+            if (await existing.CountAsync() == id)
+                return;
 
-                for (long l = 1; l <= id; l++)
-                    if (!(await existing.ContainsAsync(l)))
-                        db.Numbers.AddAsync(new Number(l));
+            for (long l = 1; l <= id; l++)
+                if (!(await existing.ContainsAsync(l)))
+                    _dbContext.Numbers.AddAsync(new Number(l));
 
-                await db.SaveChangesAsync();
-            }
+            await _dbContext.SaveChangesAsync();
         }
 
         private void EnsurePrimesCalculatedUntil(long number)
         {
             EnsureCreatedUntil(number);
 
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                db.Numbers
+            _dbContext.Numbers
                     .Where(n => !n.IsPrimeNumber.HasValue && n.Id <= 1)
                     .ToList()
                     .ForEach(n => n.IsPrimeNumber = false);
 
-                List<Number>? existingWithoutPrimeSet = db.Numbers
-                    .Where(n => 1 < n.Id && n.Id <= number && !n.IsPrimeNumber.HasValue)
-                    .ToList();
+            List<Number>? existingWithoutPrimeSet = _dbContext.Numbers
+                .Where(n => 1 < n.Id && n.Id <= number && !n.IsPrimeNumber.HasValue)
+                .ToList();
 
-                if (existingWithoutPrimeSet.Count == number)
-                    return;
+            if (existingWithoutPrimeSet.Count == number)
+                return;
 
-                foreach (var dbNumber in existingWithoutPrimeSet)
-                    dbNumber.IsPrimeNumber = dbNumber.Id.IsPrime();
+            foreach (var dbNumber in existingWithoutPrimeSet)
+                dbNumber.IsPrimeNumber = dbNumber.Id.IsPrime();
 
-                db.SaveChanges();
-            }
+            _dbContext.SaveChanges();
         }
 
         private async Task EnsurePrimesCalculatedUntilAsync(long number)
         {
             await EnsureCreatedUntilAsync(number);
 
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                (await db.Numbers
-                      .Where(n => !n.IsPrimeNumber.HasValue && n.Id <= 1)
-                      .ToListAsync())
-                      .ForEach(n => n.IsPrimeNumber = false);
+            (await _dbContext.Numbers
+                  .Where(n => !n.IsPrimeNumber.HasValue && n.Id <= 1)
+                  .ToListAsync())
+                  .ForEach(n => n.IsPrimeNumber = false);
 
-                await db.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-                List<Number>? existingWithoutPrimeSet = await db.Numbers
-                    .Where(n => 1 < n.Id && n.Id <= number && !n.IsPrimeNumber.HasValue)
-                    .ToListAsync();
+            List<Number>? existingWithoutPrimeSet = await _dbContext.Numbers
+                .Where(n => 1 < n.Id && n.Id <= number && !n.IsPrimeNumber.HasValue)
+                .ToListAsync();
 
-                if (existingWithoutPrimeSet.Count == number)
-                    return;
+            if (existingWithoutPrimeSet.Count == number)
+                return;
 
-                foreach (var dbNumber in existingWithoutPrimeSet)
-                    dbNumber.IsPrimeNumber = dbNumber.Id.IsPrime();
+            foreach (var dbNumber in existingWithoutPrimeSet)
+                dbNumber.IsPrimeNumber = dbNumber.Id.IsPrime();
 
-                await db.SaveChangesAsync();
-            }
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<List<long>> GetPrimesUntilAsync(long max)
         {
             await EnsurePrimesCalculatedUntilAsync(max);
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                return await db.Numbers
-                    .Where(n => n.IsPrimeNumber.Value && n.Id <= max)
-                    .Select(n => n.Id)
-                    .ToListAsync();
-            }
+
+            return await _dbContext.Numbers
+                .Where(n => n.IsPrimeNumber.Value && n.Id <= max)
+                .Select(n => n.Id)
+                .ToListAsync();
         }
 
         public async Task<long> GetPrimeAsync(long primeNo)
         {
-            using (var db = _dbFactory.CreateDbContext())
+            while ((await _dbContext.Numbers.CountAsync(n => n.IsPrimeNumber ?? false)) < primeNo)
             {
-                while ((await db.Numbers.CountAsync(n => n.IsPrimeNumber ?? false)) < primeNo)
-                {
-                    await AddAsync(10000);
-                    await EnsurePrimesCalculatedUntilAsync(await db.Numbers.MaxAsync(n => n.Id));
-                }
-
-                var numberId = await db.Numbers
-                    .Where(n => n.IsPrimeNumber ?? false)
-                    .Select(n => n.Id)
-                    .OrderBy(id => id)
-                    .Take((int)primeNo)
-                    .LastAsync();
-
-                return (await db.Numbers.FirstAsync(n => n.Id == numberId)).Id;
+                await AddAsync(10000);
+                await EnsurePrimesCalculatedUntilAsync(await _dbContext.Numbers.MaxAsync(n => n.Id));
             }
+
+            var numberId = await _dbContext.Numbers
+                .Where(n => n.IsPrimeNumber ?? false)
+                .Select(n => n.Id)
+                .OrderBy(id => id)
+                .Take((int)primeNo)
+                .LastAsync();
+
+            return (await _dbContext.Numbers.FirstAsync(n => n.Id == numberId)).Id;
         }
 
         public List<long> GetFactors(long number)
         {
             EnsureCreatedUntil(number);
 
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                SetFactors(number);
+            SetFactors(number);
 
-                return db.Numbers
-                    .First(n => n.Id == number)
-                    .Factors
-                    .Select(f => f.FactorNumberId)
-                    .ToList();
-            }
+            return _dbContext.Numbers
+                .First(n => n.Id == number)
+                .Factors
+                .Select(f => f.FactorNumberId)
+                .ToList();
         }
 
         public async Task<List<long>> GetFactorsAsync(long number)
@@ -170,13 +150,10 @@ namespace EulerDomain.Repos
 
             await SetFactorsAsync(number);
 
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                return (await db.Factors
-                    .Where(f => f.NumberId == number)
-                    .Select(f => f.FactorNumberId)
-                    .ToListAsync());
-            }
+            return (await _dbContext.Factors
+                .Where(f => f.NumberId == number)
+                .Select(f => f.FactorNumberId)
+                .ToListAsync());
         }
 
         #endregion Public Methods
@@ -185,105 +162,87 @@ namespace EulerDomain.Repos
 
         internal void Add(long number)
         {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                db.Numbers.Add(new Number(number));
-                db.SaveChanges();
-            }
+            _dbContext.Numbers.Add(new Number(number));
+            _dbContext.SaveChanges();
         }
 
         private async Task AddAsync(long count)
         {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                long max = db.Numbers.Max(n => n.Id);
-                for (long l = max + 1; l < max + count; l++)
-                    await db.Numbers.AddAsync(new Number(l));
+            long max = _dbContext.Numbers.Max(n => n.Id);
+            for (long l = max + 1; l < max + count; l++)
+                await _dbContext.Numbers.AddAsync(new Number(l));
 
-                await db.SaveChangesAsync();
-            }
+            await _dbContext.SaveChangesAsync();
         }
 
         private void SetPrime(long number)
         {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                var dbNumber = db.Numbers.First(n => n.Id == number);
-                if (dbNumber.IsPrimeNumber.HasValue)
-                    return;
+            var dbNumber = _dbContext.Numbers.First(n => n.Id == number);
+            if (dbNumber.IsPrimeNumber.HasValue)
+                return;
 
-                dbNumber.IsPrimeNumber = number.IsPrime();
-                db.SaveChanges();
-            }
+            dbNumber.IsPrimeNumber = number.IsPrime();
+            _dbContext.SaveChanges();
         }
 
         private async Task SetPrimeAsync(long number)
         {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                var dbNumber = await db.Numbers.FirstAsync(n => n.Id == number);
-                if (dbNumber.IsPrimeNumber.HasValue)
-                    return;
+            var dbNumber = await _dbContext.Numbers.FirstAsync(n => n.Id == number);
+            if (dbNumber.IsPrimeNumber.HasValue)
+                return;
 
-                dbNumber.IsPrimeNumber = number.IsPrime();
-                await db.SaveChangesAsync();
-            }
+            dbNumber.IsPrimeNumber = number.IsPrime();
+            await _dbContext.SaveChangesAsync();
         }
 
         private void SetFactors(long number)
         {
-            using (EulerDbContext? db = _dbFactory.CreateDbContext())
-            {
-                var dbNumber = db.Numbers.First(n => n.Id == number);
-                if (dbNumber.HasFactors.HasValue)
-                    return;
+            var dbNumber = _dbContext.Numbers.First(n => n.Id == number);
+            if (dbNumber.HasFactors.HasValue)
+                return;
 
-                SetPrime(number);
+            SetPrime(number);
 
-                if (dbNumber.IsPrimeNumber ?? false)
-                    return;
+            if (dbNumber.IsPrimeNumber ?? false)
+                return;
 
-                EnsurePrimesCalculatedUntil(dbNumber.Id);
+            EnsurePrimesCalculatedUntil(dbNumber.Id);
 
-                List<Number>? potentialFactors = db.Numbers
-                    .Where(n => n.IsPrimeNumber ?? true && n.Id < dbNumber.Id / 2)
-                    .ToList();
+            List<Number>? potentialFactors = _dbContext.Numbers
+                .Where(n => n.IsPrimeNumber ?? true && n.Id < dbNumber.Id / 2)
+                .ToList();
 
-                foreach (var potentialFactor in potentialFactors)
-                    if (dbNumber.Id.IsDivisibleBy(potentialFactor.Id))
-                        dbNumber.Factors.Add(new Factor(dbNumber, potentialFactor));
+            foreach (var potentialFactor in potentialFactors)
+                if (dbNumber.Id.IsDivisibleBy(potentialFactor.Id))
+                    dbNumber.Factors.Add(new Factor(dbNumber, potentialFactor));
 
-                db.SaveChanges();
-            }
+            _dbContext.SaveChanges();
         }
 
         private async Task SetFactorsAsync(long number)
         {
-            using (EulerDbContext? db = _dbFactory.CreateDbContext())
-            {
-                var dbNumber = await db.Numbers.FirstAsync(n => n.Id == number);
-                if (dbNumber.HasFactors.HasValue)
-                    return;
+            var dbNumber = await _dbContext.Numbers.FirstAsync(n => n.Id == number);
+            if (dbNumber.HasFactors.HasValue)
+                return;
 
-                await SetPrimeAsync(number);
-                await db.SaveChangesAsync();
+            await SetPrimeAsync(number);
+            await _dbContext.SaveChangesAsync();
 
-                if (dbNumber.IsPrimeNumber ?? false)
-                    return;
+            if (dbNumber.IsPrimeNumber ?? false)
+                return;
 
-                await EnsurePrimesCalculatedUntilAsync(dbNumber.Id);
+            await EnsurePrimesCalculatedUntilAsync(dbNumber.Id);
 
-                List<Number>? potentialFactors = await db.Numbers
-                    .Where(n => n.IsPrimeNumber ?? true && n.Id < dbNumber.Id / 2)
-                    .ToListAsync();
+            List<Number>? potentialFactors = await _dbContext.Numbers
+                .Where(n => n.IsPrimeNumber ?? true && n.Id < dbNumber.Id / 2)
+                .ToListAsync();
 
-                foreach (var potentialFactor in potentialFactors)
-                    if (dbNumber.Id.IsDivisibleBy(potentialFactor.Id))
-                        dbNumber.Factors.Add(new Factor(dbNumber, potentialFactor));
+            foreach (var potentialFactor in potentialFactors)
+                if (dbNumber.Id.IsDivisibleBy(potentialFactor.Id))
+                    dbNumber.Factors.Add(new Factor(dbNumber, potentialFactor));
 
-                dbNumber.HasFactors = true;
-                await db.SaveChangesAsync();
-            }
+            dbNumber.HasFactors = true;
+            await _dbContext.SaveChangesAsync();
         }
 
         #endregion Private Methods
