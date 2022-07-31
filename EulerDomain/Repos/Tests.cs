@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EulerDb;
 using EulerDb.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerDomain.Repos
 {
@@ -25,11 +26,27 @@ namespace EulerDomain.Repos
 
         #region Public Methods
 
-        public Test Get(int id)
+        public async Task<Test> GetAsync(int id)
         {
             using (var db = _dbFactory.CreateDbContext())
             {
-                return db.Tests.First(t => t.Id == id);
+                return await db.Tests.FirstAsync(t => t.Id == id);
+            }
+        }
+
+        public List<Test> GetAll(bool? isProblem = null, bool? isSolved = null)
+        {
+            using (var db = _dbFactory.CreateDbContext())
+            {
+                IEnumerable<Test> tests = db.Tests;
+
+                if (isProblem.HasValue)
+                    tests = tests.Where(t => t.IsProblem == isProblem.Value);
+
+                if (isSolved.HasValue)
+                    tests = tests.Where(t => !string.IsNullOrEmpty(t.Answer) == isSolved.Value);
+
+                return tests.ToList();
             }
         }
 
@@ -47,6 +64,16 @@ namespace EulerDomain.Repos
                     tests = tests.Where(t => t.Problem.IsSolved == isSolved.Value);
 
                 return tests.ToList();
+            }
+        }
+
+        public async Task SetAnswerAsync(int problemId, string answer)
+        {
+            using (var db = _dbFactory.CreateDbContext())
+            {
+                var test = await db.Tests.FirstAsync(t => t.ProblemId == problemId);
+                test.Answer = answer;
+                await db.SaveChangesAsync();
             }
         }
 

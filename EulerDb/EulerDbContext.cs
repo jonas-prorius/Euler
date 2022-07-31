@@ -11,10 +11,7 @@ namespace EulerDb
         public DbSet<Problem> Problems { get; set; }
         public DbSet<Test> Tests { get; set; }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
         public EulerDbContext(DbContextOptions<EulerDbContext> options) : base(options)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             Database.EnsureCreated();
         }
@@ -49,6 +46,11 @@ namespace EulerDb
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Problem>().HasKey(p => p.Id);
+            modelBuilder.Entity<Problem>()
+                .HasMany(p => p.Tests)
+                .WithOne(t => t.Problem)
+                .HasForeignKey(t => t.ProblemId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Test>().HasKey(p => p.Id);
             modelBuilder.Entity<Test>()

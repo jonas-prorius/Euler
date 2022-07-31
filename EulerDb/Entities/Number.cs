@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using EulerMath;
 
 namespace EulerDb.Entities
 {
@@ -47,8 +44,13 @@ namespace EulerDb.Entities
         [Column("has_factors")]
         public bool? HasFactors { get; set; }
 
-        public virtual IList<Factor> Factors { get; set; }
+        public virtual List<Factor> Factors { get; set; }
 
-        public virtual IList<Factor> FactorToNumbers { get; set; }
+        public virtual List<Factor> FactorToNumbers { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Id}";
+        }
     }
 }

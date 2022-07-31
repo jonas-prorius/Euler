@@ -31,6 +31,11 @@ namespace EulerDb.Entities
         [Column("is_solved")]
         public bool IsSolved { get; set; }
 
-        public virtual IList<Test> Tests { get; set; }
+        public virtual List<Test> Tests { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Id}";
+        }
     }
 }

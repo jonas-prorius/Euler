@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EulerDb.Entities;
 using EulerDomain;
 
 namespace ProblemSolver.Problems
@@ -10,7 +11,7 @@ namespace ProblemSolver.Problems
     /// A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
     /// Find the largest palindrome made from the product of two 3-digit numbers.
     /// </summary>
-    public class Problem0004 : IProblem<Problem0004Config>
+    public class Problem0004 : IProblem
     {
         public int ProblemId => 4;
 
@@ -23,6 +24,9 @@ namespace ProblemSolver.Problems
                         result.Add(i * j);
             return Task.FromResult(result.Max().ToString());
         }
+
+        public async Task<string> Run(Test test, EulerRepo repo)
+            => await Run(test.GetParameters<Problem0004Config>(), repo);
 
         private static bool IsPalindrome(string s)
         {

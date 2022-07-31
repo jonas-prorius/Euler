@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EulerDb.Entities;
 using EulerDomain;
 using EulerMath;
 
@@ -29,7 +30,7 @@ namespace ProblemSolver.Problems
     /// 71636269561882670428252483600823257530420752963450
     /// Find the thirteen adjacent digits in the 1000-digit number that have the greatest product.What is the value of this product?
     /// </summary>
-    public class Problem0008 : IProblem<Problem0008Config>
+    public class Problem0008 : IProblem
     {
         public int ProblemId => 8;
 
@@ -42,6 +43,9 @@ namespace ProblemSolver.Problems
 
             return Task.FromResult(max.ToString());
         }
+
+        public async Task<string> Run(Test test, EulerRepo repo)
+            => await Run(test.GetParameters<Problem0008Config>(), repo);
     }
 
     public class Problem0008Config : IProblemParameters

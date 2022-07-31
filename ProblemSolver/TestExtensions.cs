@@ -2,19 +2,17 @@
 using System.Threading.Tasks;
 using EulerDb;
 using EulerDb.Entities;
+using EulerDomain;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace EulerDomain.Repos
+namespace ProblemSolver
 {
     public static class TestExtensions
     {
         public static T GetParameters<T>(this Test test) where T : IProblemParameters
         {
             return JsonConvert.DeserializeObject<T>(test.Parameters);
-
-            //using (var db = dbFactory.CreateDbContext())
-            //    return JsonConvert.DeserializeObject<T>(db.Tests.First(t => t.Id == test.Id).Parameters);
         }
 
         public static void SetParameters<T>(this Test test, T parameters, EulerDbContextFactory dbFactory) where T : IProblemParameters
@@ -34,5 +32,8 @@ namespace EulerDomain.Repos
                 await db.SaveChangesAsync();
             }
         }
+
+        public static async Task<string> Run(this Test test, EulerRepo repo)
+            => await ProblemHelper.GetProblemInstance(test.ProblemId).Run(test, repo);
     }
 }

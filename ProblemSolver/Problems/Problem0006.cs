@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EulerDb.Entities;
 using EulerDomain;
 
 namespace ProblemSolver.Problems
@@ -14,7 +15,7 @@ namespace ProblemSolver.Problems
     /// Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is $3025 - 385 = 2640$.
     /// Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
     /// </summary>
-    public class Problem0006 : IProblem<Problem0006Config>
+    public class Problem0006 : IProblem
     {
         public int ProblemId => 6;
 
@@ -26,6 +27,9 @@ namespace ProblemSolver.Problems
 
             return Task.FromResult(Math.Abs(sumSquare - squareSum).ToString());
         }
+
+        public async Task<string> Run(Test test, EulerRepo repo)
+            => await Run(test.GetParameters<Problem0006Config>(), repo);
 
         private static List<long> CreateLongList(long from, long to, long interval = 1)
         {

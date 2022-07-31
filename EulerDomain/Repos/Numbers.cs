@@ -57,7 +57,7 @@ namespace EulerDomain.Repos
 
                 for (long l = 1; l <= id; l++)
                     if (!(await existing.ContainsAsync(l)))
-                        await db.Numbers.AddAsync(new Number(l));
+                        db.Numbers.AddAsync(new Number(l));
 
                 await db.SaveChangesAsync();
             }
@@ -115,7 +115,7 @@ namespace EulerDomain.Repos
             }
         }
 
-        public async Task<IEnumerable<long>> GetPrimesUntilAsync(long max)
+        public async Task<List<long>> GetPrimesUntilAsync(long max)
         {
             await EnsurePrimesCalculatedUntilAsync(max);
             using (var db = _dbFactory.CreateDbContext())
@@ -148,7 +148,7 @@ namespace EulerDomain.Repos
             }
         }
 
-        public IEnumerable<long> GetFactors(long number)
+        public List<long> GetFactors(long number)
         {
             EnsureCreatedUntil(number);
 
@@ -159,11 +159,12 @@ namespace EulerDomain.Repos
                 return db.Numbers
                     .First(n => n.Id == number)
                     .Factors
-                    .Select(f => f.FactorNumberId);
+                    .Select(f => f.FactorNumberId)
+                    .ToList();
             }
         }
 
-        public async Task<IEnumerable<long>> GetFactorsAsync(long number)
+        public async Task<List<long>> GetFactorsAsync(long number)
         {
             await EnsureCreatedUntilAsync(number);
 
@@ -200,29 +201,6 @@ namespace EulerDomain.Repos
                     await db.Numbers.AddAsync(new Number(l));
 
                 await db.SaveChangesAsync();
-            }
-        }
-
-        private long Max()
-        {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                return db.Numbers.OrderBy(n => n.Id).Last().Id;
-            }
-        }
-
-        private void SetPrime(long number, IEnumerable<long> allSmallerPrimes)
-        {
-            using (var db = _dbFactory.CreateDbContext())
-            {
-                var dbNumber = db.Numbers.First(n => n.Id == number);
-                if (dbNumber.IsPrimeNumber.HasValue)
-                    return;
-
-                if (allSmallerPrimes != null)
-                    dbNumber.IsPrimeNumber = number.IsPrime(allSmallerPrimes);
-
-                db.SaveChanges();
             }
         }
 

@@ -13,18 +13,18 @@ namespace EulerDb.Entities
             IsProblem = new();
         }
 
-        public Test(int id, Problem problem, bool isProblem, string? parameters, string? answer)
+        public Test(Problem problem, bool isProblem, string? parameters, string? answer)
         {
-            Id = id;
+            Id = new();
             Problem = problem;
             IsProblem = isProblem;
             Parameters = parameters;
             Answer = answer;
         }
 
-        public Test(int id, int problemId, bool isProblem, string? parameters, string? answer)
+        public Test(int problemId, bool isProblem, string? parameters, string? answer)
         {
-            Id = id;
+            Id = new();
             ProblemId = problemId;
             Problem = new(problemId);
             IsProblem = isProblem;
@@ -32,17 +32,17 @@ namespace EulerDb.Entities
             Answer = answer;
         }
 
-        public Test(int id, Problem problem, bool isProblem, string? parameters)
+        public Test(Problem problem, bool isProblem, string? parameters)
         {
-            Id = id;
+            Id = new();
             Problem = problem;
             IsProblem = isProblem;
             Parameters = parameters;
         }
 
-        public Test(int id, int problemId, bool isProblem, string? parameters)
+        public Test(int problemId, bool isProblem, string? parameters)
         {
-            Id = id;
+            Id = new();
             ProblemId = problemId;
             Problem = new(problemId);
             IsProblem = isProblem;
@@ -50,7 +50,7 @@ namespace EulerDb.Entities
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Column("id", Order = 1)]
         public int Id { get; private set; }
@@ -70,5 +70,8 @@ namespace EulerDb.Entities
         public string? Answer { get; set; }
 
         public virtual Problem Problem { get; set; }
+
+        public override string ToString()
+            => $"{nameof(ProblemId)}: {ProblemId}, {nameof(Parameters)}: {Parameters}";
     }
 }

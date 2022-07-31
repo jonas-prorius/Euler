@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Threading.Tasks;
+using EulerDb.Entities;
 using EulerDomain;
+
 using EulerMath;
 
 namespace ProblemSolver.Problems
@@ -32,7 +35,7 @@ namespace ProblemSolver.Problems
     /// The product of these numbers is 26 × 63 × 78 × 14 = 1788696.
     /// What is the greatest product of four adjacent numbers in the same direction(up, down, left, right, or diagonally) in the 20×20 grid?
     /// </summary>
-    public class Problem0011 : IProblem<Problem0011Config>
+    public class Problem0011 : IProblem
     {
         public int ProblemId => 11;
 
@@ -105,6 +108,9 @@ namespace ProblemSolver.Problems
 
             return Task.FromResult(max.ToString());
         }
+
+        public async Task<string> Run(Test test, EulerRepo repo)
+            => await Run(test.GetParameters<Problem0011Config>(), repo);
     }
 
     public class Problem0011Config : IProblemParameters

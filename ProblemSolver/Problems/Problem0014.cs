@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using EulerDb.Entities;
 using EulerDomain;
 
 namespace ProblemSolver.Problems
@@ -14,7 +16,7 @@ namespace ProblemSolver.Problems
     ///  <p>Which starting number, under one million, produces the longest chain?</p>
     ///  <p class="note"><b>NOTE:</b> Once the chain starts the terms are allowed to go above one million.</p>
     /// </summary>
-    public class Problem0014 : IProblem<Problem0014Config>
+    public class Problem0014 : IProblem
     {
         public int ProblemId => 14;
 
@@ -37,6 +39,9 @@ namespace ProblemSolver.Problems
             }
             return Task.FromResult(results[results.Keys.Max()].First().ToString());
         }
+
+        public async Task<string> Run(Test test, EulerRepo repo)
+            => await Run(test.GetParameters<Problem0014Config>(), repo);
 
         private static long NextCollatz(long current)
         {

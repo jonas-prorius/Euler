@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using EulerDb.Entities;
+
 using EulerDomain;
 
 namespace ProblemSolver.Problems
@@ -8,7 +10,7 @@ namespace ProblemSolver.Problems
     /// 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...
     /// By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
     /// </summary>
-    public class Problem0002 : IProblem<Problem0002Config>
+    public class Problem0002 : IProblem
     {
         public int ProblemId => 2;
 
@@ -29,6 +31,9 @@ namespace ProblemSolver.Problems
 
             return Task.FromResult(sum.ToString());
         }
+
+        public async Task<string> Run(Test test, EulerRepo repo)
+            => await Run(test.GetParameters<Problem0002Config>(), repo);
     }
 
     public class Problem0002Config : IProblemParameters

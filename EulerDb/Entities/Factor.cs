@@ -21,7 +21,9 @@ namespace EulerDb.Entities
         public Factor(long numberId, long factorNumberId)
         {
             NumberId = numberId;
+            Number = new(numberId);
             FactorNumberId = factorNumberId;
+            FactorNumber = new(factorNumberId);
         }
 
         [Key]
@@ -39,5 +41,8 @@ namespace EulerDb.Entities
         public virtual Number Number { get; set; }
 
         public virtual Number FactorNumber { get; set; }
+
+        public override string ToString()
+            => $"{nameof(NumberId)}: {NumberId}, {nameof(FactorNumberId)}: {FactorNumberId}";
     }
 }
