@@ -15,7 +15,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 5;
 
-        public Task<string> Run(Problem0005Config config, EulerRepo repo)
+        public static Task<string> Run(Problem0005Config config)
         {
             var factors = CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
             long start = factors[0] * factors[1];
@@ -27,8 +27,8 @@ namespace ProblemSolver.Problems
             return Task.FromResult(default(string));
         }
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0005Config>(), repo);
+        public async Task<string> Run(Test test, EulerRepo _)
+            => await Run(test.GetParameters<Problem0005Config>());
 
         private static List<long> CreateLongList(long from, long to, long interval = 1)
         {

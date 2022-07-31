@@ -13,7 +13,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 10;
 
-        public async Task<string> Run(Problem0010Config config, EulerRepo repo)
+        public static async Task<string> Run(Problem0010Config config, EulerRepo repo)
         {
             return (await repo.Numbers.GetPrimesUntilAsync(config.Roof)).Sum().ToString();
         }

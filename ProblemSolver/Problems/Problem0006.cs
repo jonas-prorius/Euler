@@ -19,7 +19,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 6;
 
-        public Task<string> Run(Problem0006Config config, EulerRepo repo)
+        public static Task<string> Run(Problem0006Config config)
         {
             var numbers = CreateLongList(1, config.NumbersToRun);
             long sumSquare = (long)Math.Pow(numbers.Sum(), 2);
@@ -28,8 +28,8 @@ namespace ProblemSolver.Problems
             return Task.FromResult(Math.Abs(sumSquare - squareSum).ToString());
         }
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0006Config>(), repo);
+        public async Task<string> Run(Test test, EulerRepo _)
+            => await Run(test.GetParameters<Problem0006Config>());
 
         private static List<long> CreateLongList(long from, long to, long interval = 1)
         {

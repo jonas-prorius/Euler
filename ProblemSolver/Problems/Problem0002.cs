@@ -14,7 +14,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 2;
 
-        public Task<string> Run(Problem0002Config config, EulerRepo repo)
+        public static Task<string> Run(Problem0002Config config)
         {
             long e1 = 1;
             long e2 = 2;
@@ -32,8 +32,8 @@ namespace ProblemSolver.Problems
             return Task.FromResult(sum.ToString());
         }
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0002Config>(), repo);
+        public async Task<string> Run(Test test, EulerRepo _)
+            => await Run(test.GetParameters<Problem0002Config>());
     }
 
     public class Problem0002Config : IProblemParameters

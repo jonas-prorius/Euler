@@ -20,7 +20,8 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 14;
 
-        public Task<string> Run(Problem0014Config config, EulerRepo repo)
+        public static Task<string> Run(Problem0014Config config
+            )
         {
             Dictionary<long, List<long>> results = new();
             for (long i = config.MinStart; i <= config.MaxStart; i++)
@@ -40,8 +41,8 @@ namespace ProblemSolver.Problems
             return Task.FromResult(results[results.Keys.Max()].First().ToString());
         }
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0014Config>(), repo);
+        public async Task<string> Run(Test test, EulerRepo _)
+            => await Run(test.GetParameters<Problem0014Config>());
 
         private static long NextCollatz(long current)
         {

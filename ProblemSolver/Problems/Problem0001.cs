@@ -13,7 +13,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 1;
 
-        public Task<string> Run(Problem0001Config config, EulerRepo repo)
+        public static Task<string> Run(Problem0001Config config)
         {
             return Task.FromResult(Enumerable.Range(0, config.Roof)
                 .Where(n => n % 3 == 0 || n % 5 == 0)
@@ -21,8 +21,8 @@ namespace ProblemSolver.Problems
                 .ToString());
         }
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0001Config>(), repo);
+        public async Task<string> Run(Test test, EulerRepo _)
+            => await Run(test.GetParameters<Problem0001Config>());
     }
 
     public class Problem0001Config : IProblemParameters

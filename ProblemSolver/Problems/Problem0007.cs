@@ -12,7 +12,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 7;
 
-        public async Task<string> Run(Problem0007Config config, EulerRepo repo)
+        public static async Task<string> Run(Problem0007Config config, EulerRepo repo)
         {
             return (await repo.Numbers.GetPrimeAsync(config.PrimeNo)).ToString();
         }

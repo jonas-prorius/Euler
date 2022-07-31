@@ -39,7 +39,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 11;
 
-        private readonly string[] _problemData = {
+        private static readonly string[] _problemData = {
             "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08",
             "49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00",
             "81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65",
@@ -62,7 +62,7 @@ namespace ProblemSolver.Problems
             "01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48",
         };
 
-        public Task<string> Run(Problem0011Config config, EulerRepo repo)
+        public static Task<string> Run(Problem0011Config config)
         {
             long[][] grid = _problemData.Select(l => l.Split(' ').Select(x => long.Parse(x)).ToArray()).ToArray();
             List<List<long>> segments = new();
@@ -109,8 +109,8 @@ namespace ProblemSolver.Problems
             return Task.FromResult(max.ToString());
         }
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0011Config>(), repo);
+        public async Task<string> Run(Test test, EulerRepo _)
+            => await Run(test.GetParameters<Problem0011Config>());
     }
 
     public class Problem0011Config : IProblemParameters

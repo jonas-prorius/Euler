@@ -13,7 +13,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 3;
 
-        public async Task<string> Run(Problem0003Config config, EulerRepo repo)
+        public static async Task<string> Run(Problem0003Config config, EulerRepo repo)
         {
             return (await repo.Numbers.GetFactorsAsync(config.Number)).Max().ToString();
         }

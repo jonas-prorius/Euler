@@ -20,7 +20,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 14;
 
-        public async Task<string> Run(Problem0047Config config, EulerRepo repo)
+        public static async Task<string> Run(Problem0047Config config, EulerRepo repo)
         {
             long current = 1;
             for (var f = 1; f <= config.ConsecutivesAndDistinct; f++)

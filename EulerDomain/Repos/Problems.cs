@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EulerDb;
 using EulerDb.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerDomain.Repos
 {
@@ -34,6 +36,19 @@ namespace EulerDomain.Repos
                     problems = problems.Where(p => p.IsSolved == isSolved.Value);
 
                 return problems.ToList();
+            }
+        }
+
+        public async Task SetIsSolvedAsync(int problemId, bool isSolved)
+        {
+            using (var db = _dbFactory.CreateDbContext())
+            {
+                var problem = await db.Problems
+                    .FirstAsync(p => p.Id == problemId);
+
+                problem.IsSolved = isSolved;
+
+                await db.SaveChangesAsync();
             }
         }
 

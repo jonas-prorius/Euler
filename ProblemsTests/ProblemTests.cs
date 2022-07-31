@@ -26,7 +26,11 @@ namespace ProblemsTests
                 Assert.IsTrue(problems.Any(p => p.Id == test.ProblemId));
 
             foreach (var test in tests)
-                await repo.Tests.SetAnswerAsync(test.Id, await test.Run(repo));
+            {
+                var runAnswer = await test.Run(repo);
+                await repo.Tests.SetAnswerAsync(test.Id, runAnswer);
+                await repo.Problems.SetIsSolvedAsync(test.ProblemId, true);
+            }
         }
 
         [TestMethod]
@@ -43,7 +47,11 @@ namespace ProblemsTests
                 Assert.IsTrue(problems.Any(p => p.Id == test.ProblemId));
 
             foreach (var test in tests)
-                Assert.AreEqual(test.Answer, await test.Run(repo));
+            {
+                var runAnswer = await test.Run(repo);
+                await repo.Tests.SetAnswerAsync(test.Id, runAnswer);
+                await repo.Problems.SetIsSolvedAsync(test.ProblemId, true);
+            }
         }
 
         [TestMethod]
@@ -60,7 +68,10 @@ namespace ProblemsTests
                 Assert.IsTrue(problems.Any(p => p.Id == test.ProblemId));
 
             foreach (var test in tests)
-                Assert.AreEqual(test.Answer, await test.Run(repo));
+            {
+                var runAnswer = await test.Run(repo);
+                Assert.AreEqual(test.Answer, runAnswer);
+            }
         }
     }
 }

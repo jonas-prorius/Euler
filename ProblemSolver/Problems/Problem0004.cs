@@ -15,7 +15,7 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 4;
 
-        public Task<string> Run(Problem0004Config config, EulerRepo repo)
+        public static Task<string> Run(Problem0004Config config)
         {
             List<long> result = new();
             for (int i = (int)Math.Pow(10, config.Digits - 1); i < Math.Pow(10, config.Digits); i++)
@@ -25,8 +25,8 @@ namespace ProblemSolver.Problems
             return Task.FromResult(result.Max().ToString());
         }
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0004Config>(), repo);
+        public async Task<string> Run(Test test, EulerRepo _)
+            => await Run(test.GetParameters<Problem0004Config>());
 
         private static bool IsPalindrome(string s)
         {
