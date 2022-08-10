@@ -18,7 +18,7 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0047 : IProblem
     {
-        public int ProblemId => 14;
+        public int ProblemId => 47;
 
         public Task<string> Run(Test test)
         {
@@ -37,7 +37,7 @@ namespace ProblemSolver.Problems
                     continue;
                 }
 
-                var factors = (current.Factors()).Distinct();
+                var factors = (current.GetPrimeFactors()).Distinct();
                 if (factors.Count() != config.ConsecutivesAndDistinct)
                 {
                     numbers.Clear();

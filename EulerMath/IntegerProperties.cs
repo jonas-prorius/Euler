@@ -15,20 +15,44 @@ namespace EulerMath
         public static bool IsEven(this long number)
             => number % 2 == 0;
 
-        public static List<long> Factors(this long number)
+        public static List<long> GetPrimeFactors(this long number)
         {
             if (number < 1)
                 throw new ArgumentException("Number must be greater than 0");
 
             List<long> result = new();
-            if (number.IsEven())
-                result.Add(2);
+            long? primeFactor;
 
-            for (long i = 3; i <= Math.Sqrt(number); i += 2)
-                if (number.IsDivisibleBy(i))
-                    result.Add(i);
+            do
+            {
+                primeFactor = number.GetFirstPrimeFactor();
+                if (primeFactor.HasValue)
+                {
+                    result.Add(primeFactor.Value);
+                    number /= primeFactor.Value;
+                }
+                else
+                {
+                    result.Add(number);
+                }
+            } while (primeFactor != null);
 
             return result;
+        }
+
+        public static long? GetFirstPrimeFactor(this long number)
+        {
+            if (number < 1)
+                throw new ArgumentException("Number must be greater than 0");
+
+            if (number.IsEven())
+                return 2;
+
+            for (long divisor = 3; divisor <= number / 2; divisor += 2)
+                if (number.IsDivisibleBy(divisor))
+                    return divisor;
+
+            return null;
         }
 
         public static long? GetLargestFactor(this long number)
@@ -37,7 +61,7 @@ namespace EulerMath
                 throw new ArgumentException("Number must be greater than 0");
 
             for (long i = (long)Math.Ceiling(Math.Sqrt(number)); i > 1; i -= 2)
-                if (number.IsDivisibleBy(i))
+                if (number.IsDivisibleBy(i) && i.IsPrime())
                     return i;
 
             return null;

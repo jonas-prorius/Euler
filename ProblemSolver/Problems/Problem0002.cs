@@ -32,7 +32,7 @@ namespace ProblemSolver.Problems
             return Task.FromResult(sum.ToString());
         }
 
-        public async Task<string> Run(Test test)
+        public Task<string> Run(Test test)
         {
             var config = test.GetParameters<Problem0002Config>();
 
@@ -49,7 +49,7 @@ namespace ProblemSolver.Problems
                     sum += f3;
             }
 
-            return sum.ToString();
+            return Task.FromResult(sum.ToString());
         }
     }
 
