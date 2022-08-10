@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using EulerDb.Entities;
 
-using EulerDomain;
-
 namespace ProblemSolver.Problems
 {
     /// <summary>

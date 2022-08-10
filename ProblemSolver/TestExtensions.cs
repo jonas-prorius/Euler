@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using EulerDb;
 using EulerDb.Entities;
-using EulerDomain;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 

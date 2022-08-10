@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using EulerDb.Entities;
-using EulerDomain;
 using EulerMath;
 
 namespace ProblemSolver.Problems

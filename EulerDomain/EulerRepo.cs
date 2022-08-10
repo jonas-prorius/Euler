@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using EulerDb;
+﻿using EulerDb;
 using EulerDomain.Repos;
 
 namespace EulerDomain
