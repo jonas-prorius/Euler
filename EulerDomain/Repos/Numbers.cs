@@ -50,10 +50,16 @@ namespace EulerDomain.Repos
             if (await existing.CountAsync() == id)
                 return;
 
-            for (long l = 1; l <= id; l++)
-                if (!(await existing.ContainsAsync(l)))
-                    _dbContext.Numbers.AddAsync(new Number(l));
+            Dictionary<long, bool> numbers = new();
 
+            for (long l = 1; l <= id; l++)
+                numbers.Add(l, false);
+
+            foreach (var e in existing)
+                if (numbers.ContainsKey(e))
+                    numbers[e] = true;
+
+            await _dbContext.Numbers.AddRangeAsync(numbers.Where(kvp => !kvp.Value).Select(kvp => new Number(kvp.Key)));
             await _dbContext.SaveChangesAsync();
         }
 
