@@ -19,17 +19,16 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 6;
 
-        public static Task<string> Run(Problem0006Config config)
+        public Task<string> Run(Test test)
         {
+            var config = test.GetParameters<Problem0006Config>();
+
             var numbers = CreateLongList(1, config.NumbersToRun);
             long sumSquare = (long)Math.Pow(numbers.Sum(), 2);
             long squareSum = numbers.Sum(n => (long)Math.Pow(n, 2));
 
             return Task.FromResult(Math.Abs(sumSquare - squareSum).ToString());
         }
-
-        public async Task<string> Run(Test test, EulerRepo _)
-            => await Run(test.GetParameters<Problem0006Config>());
 
         private static List<long> CreateLongList(long from, long to, long interval = 1)
         {

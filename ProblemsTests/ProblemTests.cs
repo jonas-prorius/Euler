@@ -27,7 +27,7 @@ namespace ProblemsTests
 
             foreach (var test in tests)
             {
-                var runAnswer = await test.Run(repo);
+                var runAnswer = await test.Run();
                 await repo.Tests.SetAnswerAsync(test.Id, runAnswer);
                 await repo.Problems.SetIsSolvedAsync(test.ProblemId, true);
             }
@@ -48,7 +48,7 @@ namespace ProblemsTests
 
             foreach (var test in tests)
             {
-                var runAnswer = await test.Run(repo);
+                var runAnswer = await test.Run();
                 await repo.Tests.SetAnswerAsync(test.Id, runAnswer);
                 await repo.Problems.SetIsSolvedAsync(test.ProblemId, true);
             }
@@ -69,7 +69,7 @@ namespace ProblemsTests
 
             foreach (var test in tests)
             {
-                var runAnswer = await test.Run(repo);
+                var runAnswer = await test.Run();
                 Assert.AreEqual(test.Answer, runAnswer);
             }
         }

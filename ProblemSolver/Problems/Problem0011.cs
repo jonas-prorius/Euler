@@ -62,8 +62,10 @@ namespace ProblemSolver.Problems
             "01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48",
         };
 
-        public static Task<string> Run(Problem0011Config config)
+        public Task<string> Run(Test test)
         {
+            var config = test.GetParameters<Problem0011Config>();
+
             long[][] grid = _problemData.Select(l => l.Split(' ').Select(x => long.Parse(x)).ToArray()).ToArray();
             List<List<long>> segments = new();
             //E
@@ -108,9 +110,6 @@ namespace ProblemSolver.Problems
 
             return Task.FromResult(max.ToString());
         }
-
-        public async Task<string> Run(Test test, EulerRepo _)
-            => await Run(test.GetParameters<Problem0011Config>());
     }
 
     public class Problem0011Config : IProblemParameters

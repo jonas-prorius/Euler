@@ -33,7 +33,7 @@ namespace ProblemSolver
             }
         }
 
-        public static async Task<string> Run(this Test test, EulerRepo repo)
-            => await ProblemHelper.GetProblemInstance(test.ProblemId).Run(test, repo);
+        public static async Task<string> Run(this Test test)
+            => await ProblemHelper.GetProblemInstance(test.ProblemId).Run(test);
     }
 }

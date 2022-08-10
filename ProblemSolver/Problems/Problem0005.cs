@@ -15,26 +15,25 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 5;
 
-        public static Task<string> Run(Problem0005Config config)
+        public Task<string> Run(Test test)
         {
+            var config = test.GetParameters<Problem0005Config>();
+
             var factors = CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
             long start = factors[0] * factors[1];
             for (long? i = start; i < factors.Product(); i += factors.Last())
-            {
                 if (factors.All(f => i % f == 0))
                     return Task.FromResult(i.ToString());
-            }
+
             return Task.FromResult(default(string));
         }
-
-        public async Task<string> Run(Test test, EulerRepo _)
-            => await Run(test.GetParameters<Problem0005Config>());
 
         private static List<long> CreateLongList(long from, long to, long interval = 1)
         {
             List<long> result = new();
             for (long i = from; i <= to; i += interval)
                 result.Add(i);
+
             return result;
         }
     }

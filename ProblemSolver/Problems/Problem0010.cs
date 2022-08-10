@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EulerDb.Entities;
 using EulerDomain;
+using EulerMath;
 
 namespace ProblemSolver.Problems
 {
@@ -13,13 +15,22 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 10;
 
-        public static async Task<string> Run(Problem0010Config config, EulerRepo repo)
+        public Task<string> Run(Test test)
         {
-            return (await repo.Numbers.GetPrimesUntilAsync(config.Roof)).Sum().ToString();
-        }
+            var config = test.GetParameters<Problem0010Config>();
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0010Config>(), repo);
+            long sum = 0;
+
+            List<long> primes = new List<long>();
+
+            for (long number = 2; number < config.Roof; number++)
+            {
+                if (number.IsPrime())
+                    sum += number;
+            }
+
+            return Task.FromResult(sum.ToString());
+        }
     }
 
     public class Problem0010Config : IProblemParameters

@@ -14,13 +14,11 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 3;
 
-        public static Task<string> Run(Problem0003Config config)
+        public Task<string> Run(Test test)
         {
+            var config = test.GetParameters<Problem0003Config>();
             return Task.FromResult(config.Number.GetLargestFactor().ToString());
         }
-
-        public async Task<string> Run(Test test, EulerRepo _)
-            => await Run(test.GetParameters<Problem0003Config>());
     }
 
     public class Problem0003Config : IProblemParameters

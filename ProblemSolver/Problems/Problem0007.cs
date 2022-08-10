@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using EulerDb.Entities;
 using EulerDomain;
+using EulerMath;
 
 namespace ProblemSolver.Problems
 {
@@ -12,13 +13,21 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 7;
 
-        public static async Task<string> Run(Problem0007Config config, EulerRepo repo)
+        public Task<string> Run(Test test)
         {
-            return (await repo.Numbers.GetPrimeAsync(config.PrimeNo)).ToString();
-        }
+            var config = test.GetParameters<Problem0007Config>();
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0007Config>(), repo);
+            long primeNo = 0;
+            long current = 0;
+
+            while (primeNo < config.PrimeNo)
+            {
+                current = current.NextPrime();
+                primeNo++;
+            }
+
+            return Task.FromResult(current.ToString());
+        }
     }
 
     public class Problem0007Config : IProblemParameters

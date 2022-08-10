@@ -32,8 +32,25 @@ namespace ProblemSolver.Problems
             return Task.FromResult(sum.ToString());
         }
 
-        public async Task<string> Run(Test test, EulerRepo _)
-            => await Run(test.GetParameters<Problem0002Config>());
+        public async Task<string> Run(Test test)
+        {
+            var config = test.GetParameters<Problem0002Config>();
+
+            long f1 = 1;
+            long f2 = 2;
+            long f3;
+            long sum = 2;
+            while (f1 + f2 <= config.MaxValue)
+            {
+                f3 = f1 + f2;
+                f1 = f2;
+                f2 = f3;
+                if (f3 % 2 == 0)
+                    sum += f3;
+            }
+
+            return sum.ToString();
+        }
     }
 
     public class Problem0002Config : IProblemParameters

@@ -15,18 +15,18 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 4;
 
-        public static Task<string> Run(Problem0004Config config)
+        public Task<string> Run(Test test)
         {
+            var config = test.GetParameters<Problem0004Config>();
+
             List<long> result = new();
             for (int i = (int)Math.Pow(10, config.Digits - 1); i < Math.Pow(10, config.Digits); i++)
                 for (int j = (int)Math.Pow(10, config.Digits - 1); j < Math.Pow(10, config.Digits); j++)
                     if (IsPalindrome((i * j).ToString()))
                         result.Add(i * j);
+
             return Task.FromResult(result.Max().ToString());
         }
-
-        public async Task<string> Run(Test test, EulerRepo _)
-            => await Run(test.GetParameters<Problem0004Config>());
 
         private static bool IsPalindrome(string s)
         {

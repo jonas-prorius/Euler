@@ -20,11 +20,11 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 14;
 
-        public static async Task<string> Run(Problem0047Config config, EulerRepo repo)
+        public Task<string> Run(Test test)
         {
+            var config = test.GetParameters<Problem0047Config>();
+
             long current = 1;
-            for (var f = 1; f <= config.ConsecutivesAndDistinct; f++)
-                current *= await repo.Numbers.GetPrimeAsync(f);
 
             Queue<long> numbers = new Queue<long>();
 
@@ -37,7 +37,7 @@ namespace ProblemSolver.Problems
                     continue;
                 }
 
-                var factors = (await repo.Numbers.GetFactorsAsync(current)).Distinct();
+                var factors = (current.Factors()).Distinct();
                 if (factors.Count() != config.ConsecutivesAndDistinct)
                 {
                     numbers.Clear();
@@ -48,11 +48,8 @@ namespace ProblemSolver.Problems
                 numbers.Enqueue(current++);
             }
 
-            return numbers.Dequeue().ToString();
+            return Task.FromResult(numbers.Dequeue().ToString());
         }
-
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0047Config>(), repo);
     }
 
     public class Problem0047Config : IProblemParameters

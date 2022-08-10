@@ -8,7 +8,7 @@ namespace ProblemSolver
     {
         public abstract int ProblemId { get; }
 
-        public abstract Task<string> Run(Test test, EulerRepo repo);
+        public abstract Task<string> Run(Test test);
     }
 
     public interface IProblemParameters

@@ -34,5 +34,21 @@ namespace EulerMath
 
             return true;
         }
+
+        public static long NextPrime(this long after)
+        {
+            if (after < 2)
+                return 2;
+
+            if (after.IsEven())
+                after++;
+            else
+                after += 2;
+
+            while (!after.IsPrime())
+                after += 2;
+
+            return after;
+        }
     }
 }
