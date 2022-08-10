@@ -41,6 +41,8 @@ namespace Prepper.Workers
                 new Test(7, true, JsonConvert.SerializeObject(new Problem0007Config { PrimeNo = 10001 })),
                 new Test(8, false, JsonConvert.SerializeObject(new Problem0008Config { SampleSize = 4 }), "5832"),
                 new Test(8, true, JsonConvert.SerializeObject(new Problem0008Config { SampleSize = 13 })),
+                new Test(9, false, JsonConvert.SerializeObject(new Problem0009Config { Target= 12 }),"60"),
+                new Test(9, true, JsonConvert.SerializeObject(new Problem0009Config { Target= 1000 })),
                 new Test(10, false, JsonConvert.SerializeObject(new Problem0010Config { Roof = 10 }), "17"),
                 new Test(10, true, JsonConvert.SerializeObject(new Problem0010Config { Roof = 2000000 })),
                 new Test(11, false, JsonConvert.SerializeObject(new Problem0011Config { SegmentLength = 1 }), "99"),

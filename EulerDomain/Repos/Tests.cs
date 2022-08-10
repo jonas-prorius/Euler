@@ -41,7 +41,7 @@ namespace EulerDomain.Repos
             if (isSolved.HasValue)
                 tests = tests.Where(t => !string.IsNullOrEmpty(t.Answer) == isSolved.Value);
 
-            return tests.ToList();
+            return tests.OrderBy(t => t.ProblemId).ToList();
         }
 
         public List<Test> GetByProblemId(long problemId, bool? isProblem = null, bool? isSolved = null)
@@ -55,7 +55,7 @@ namespace EulerDomain.Repos
             if (isSolved.HasValue)
                 tests = tests.Where(t => t.Problem.IsSolved == isSolved.Value);
 
-            return tests.ToList();
+            return tests.OrderBy(t => t.ProblemId).ToList();
         }
 
         public async Task SetAnswerAsync(int testId, string answer)
@@ -78,10 +78,5 @@ namespace EulerDomain.Repos
         }
 
         #endregion Public Methods
-
-        //public List<Test> GetByProblem(Problem problem, bool? isProblem = null, bool? isSolved = null)
-        //{
-        //    return GetByProblemId(problem.Id, isProblem, isSolved);
-        //}
     }
 }

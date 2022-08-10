@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EulerDb;
+using EulerDb.Entities;
 using EulerDomain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProblemSolver;
@@ -16,16 +18,16 @@ namespace ProblemsTests
         public async Task CalculateAll()
         {
             EulerRepo? repo = new(new EulerDbContextFactory(connectionString));
-            System.Collections.Generic.List<EulerDb.Entities.Test>? tests = repo.Tests.GetAll(true);
-            System.Collections.Generic.List<EulerDb.Entities.Problem>? problems = repo.Problems.GetAll();
+            List<Test>? tests = repo.Tests.GetAll(true);
+            List<Problem>? problems = repo.Problems.GetAll();
 
-            foreach (EulerDb.Entities.Problem? problem in problems)
+            foreach (Problem? problem in problems)
                 Assert.IsTrue(tests.Any(t => t.ProblemId == problem.Id));
 
-            foreach (EulerDb.Entities.Test? test in tests)
+            foreach (Test? test in tests)
                 Assert.IsTrue(problems.Any(p => p.Id == test.ProblemId));
 
-            foreach (EulerDb.Entities.Test? test in tests)
+            foreach (Test? test in tests)
             {
                 string? runAnswer = await test.Run();
                 await repo.Tests.SetAnswerAsync(test.Id, runAnswer);
@@ -37,16 +39,16 @@ namespace ProblemsTests
         public async Task CalculateUnsolved()
         {
             EulerRepo? repo = new(new EulerDbContextFactory(connectionString));
-            System.Collections.Generic.List<EulerDb.Entities.Test>? tests = repo.Tests.GetAll(true, false);
-            System.Collections.Generic.List<EulerDb.Entities.Problem>? problems = repo.Problems.GetAll(false);
+            List<Test>? tests = repo.Tests.GetAll(true, false);
+            List<Problem>? problems = repo.Problems.GetAll(false);
 
-            foreach (EulerDb.Entities.Problem? problem in problems)
+            foreach (Problem? problem in problems)
                 Assert.IsTrue(tests.Any(t => t.ProblemId == problem.Id));
 
-            foreach (EulerDb.Entities.Test? test in tests)
+            foreach (Test? test in tests)
                 Assert.IsTrue(problems.Any(p => p.Id == test.ProblemId));
 
-            foreach (EulerDb.Entities.Test? test in tests)
+            foreach (Test? test in tests)
             {
                 string? runAnswer = await test.Run();
                 await repo.Tests.SetAnswerAsync(test.Id, runAnswer);
@@ -58,16 +60,16 @@ namespace ProblemsTests
         public async Task TestSolved()
         {
             EulerRepo? repo = new(new EulerDbContextFactory(connectionString));
-            System.Collections.Generic.List<EulerDb.Entities.Test>? tests = repo.Tests.GetAll(true, true);
-            System.Collections.Generic.List<EulerDb.Entities.Problem>? problems = repo.Problems.GetAll(true);
+            List<Test>? tests = repo.Tests.GetAll(true, true);
+            List<Problem>? problems = repo.Problems.GetAll(true);
 
-            foreach (EulerDb.Entities.Problem? problem in problems)
+            foreach (Problem? problem in problems)
                 Assert.IsTrue(tests.Any(t => t.ProblemId == problem.Id));
 
-            foreach (EulerDb.Entities.Test? test in tests)
+            foreach (Test? test in tests)
                 Assert.IsTrue(problems.Any(p => p.Id == test.ProblemId));
 
-            foreach (EulerDb.Entities.Test? test in tests)
+            foreach (Test? test in tests)
             {
                 string? runAnswer = await test.Run();
                 Assert.AreEqual(test.Answer, runAnswer);

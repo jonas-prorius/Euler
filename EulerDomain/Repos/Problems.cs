@@ -33,7 +33,7 @@ namespace EulerDomain.Repos
             if (isSolved.HasValue)
                 problems = problems.Where(p => p.IsSolved == isSolved.Value);
 
-            return problems.ToList();
+            return problems.OrderBy(p => p.Id).ToList();
         }
 
         public async Task SetIsSolvedAsync(int problemId, bool isSolved)
