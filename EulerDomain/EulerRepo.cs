@@ -20,7 +20,7 @@ namespace EulerDomain
             Tests = new Tests(_dbContext);
 
             if (!_dbContext.Numbers.Any())
-                Numbers.Add(0);
+                Numbers.AddNumber(0);
         }
     }
 }

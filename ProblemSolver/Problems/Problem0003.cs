@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EulerDb.Entities;
 using EulerDomain;
+using EulerMath;
 
 namespace ProblemSolver.Problems
 {
@@ -13,13 +14,13 @@ namespace ProblemSolver.Problems
     {
         public int ProblemId => 3;
 
-        public static async Task<string> Run(Problem0003Config config, EulerRepo repo)
+        public static Task<string> Run(Problem0003Config config)
         {
-            return (await repo.Numbers.GetFactorsAsync(config.Number)).Max().ToString();
+            return Task.FromResult(config.Number.GetLargestFactor().ToString());
         }
 
-        public async Task<string> Run(Test test, EulerRepo repo)
-            => await Run(test.GetParameters<Problem0003Config>(), repo);
+        public async Task<string> Run(Test test, EulerRepo _)
+            => await Run(test.GetParameters<Problem0003Config>());
     }
 
     public class Problem0003Config : IProblemParameters

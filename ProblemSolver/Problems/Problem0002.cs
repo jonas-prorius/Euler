@@ -16,17 +16,17 @@ namespace ProblemSolver.Problems
 
         public static Task<string> Run(Problem0002Config config)
         {
-            long e1 = 1;
-            long e2 = 2;
-            long e3;
+            long f1 = 1;
+            long f2 = 2;
+            long f3;
             long sum = 2;
-            while (e1 + e2 <= config.MaxValue)
+            while (f1 + f2 <= config.MaxValue)
             {
-                e3 = e1 + e2;
-                e1 = e2;
-                e2 = e3;
-                if (e3 % 2 == 0)
-                    sum += e3;
+                f3 = f1 + f2;
+                f1 = f2;
+                f2 = f3;
+                if (f3 % 2 == 0)
+                    sum += f3;
             }
 
             return Task.FromResult(sum.ToString());

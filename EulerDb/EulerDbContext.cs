@@ -6,6 +6,7 @@ namespace EulerDb
     public class EulerDbContext : DbContext
     {
         public DbSet<Factor> Factors { get; set; }
+        public DbSet<KeyValue> KeyValues { get; set; }
         public DbSet<Number> Numbers { get; set; }
 
         public DbSet<Problem> Problems { get; set; }
@@ -32,6 +33,8 @@ namespace EulerDb
                 .WithMany(n => n.FactorToNumbers)
                 .HasForeignKey(f => f.FactorNumberId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<KeyValue>().HasKey(kv => kv.Key);
 
             modelBuilder.Entity<Number>().HasKey(n => n.Id);
             modelBuilder.Entity<Number>()
