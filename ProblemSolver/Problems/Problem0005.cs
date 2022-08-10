@@ -12,13 +12,11 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0005 : IProblem
     {
-        public int ProblemId => 5;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0005Config>();
+            Problem0005Config config = test.GetParameters<Problem0005Config>();
 
-            var factors = CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
+            List<long>? factors = CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
             long start = factors[0] * factors[1];
             for (long? i = start; i < factors.Product(); i += factors.Last())
                 if (factors.All(f => i % f == 0))

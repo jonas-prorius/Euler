@@ -7,7 +7,7 @@ namespace EulerMath
         public static long Product(this IEnumerable<long> factors)
         {
             long product = 1;
-            foreach (var factor in factors)
+            foreach (long factor in factors)
                 product *= factor;
             return product;
         }

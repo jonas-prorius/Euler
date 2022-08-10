@@ -12,11 +12,9 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0004 : IProblem
     {
-        public int ProblemId => 4;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0004Config>();
+            Problem0004Config config = test.GetParameters<Problem0004Config>();
 
             List<long> result = new();
             for (int i = (int)Math.Pow(10, config.Digits - 1); i < Math.Pow(10, config.Digits); i++)

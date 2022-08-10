@@ -10,11 +10,9 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0001 : IProblem
     {
-        public int ProblemId => 1;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0001Config>();
+            Problem0001Config config = test.GetParameters<Problem0001Config>();
 
             return Task.FromResult(Enumerable.Range(0, config.Roof)
                 .Where(n => n % 3 == 0 || n % 5 == 0)

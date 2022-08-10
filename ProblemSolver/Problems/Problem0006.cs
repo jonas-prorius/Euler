@@ -16,13 +16,11 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0006 : IProblem
     {
-        public int ProblemId => 6;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0006Config>();
+            Problem0006Config config = test.GetParameters<Problem0006Config>();
 
-            var numbers = CreateLongList(1, config.NumbersToRun);
+            List<long>? numbers = CreateLongList(1, config.NumbersToRun);
             long sumSquare = (long)Math.Pow(numbers.Sum(), 2);
             long squareSum = numbers.Sum(n => (long)Math.Pow(n, 2));
 

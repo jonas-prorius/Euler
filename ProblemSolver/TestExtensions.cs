@@ -16,7 +16,7 @@ namespace ProblemSolver
 
         public static void SetParameters<T>(this Test test, T parameters, EulerDbContextFactory dbFactory) where T : IProblemParameters
         {
-            using (var db = dbFactory.CreateDbContext())
+            using (EulerDbContext? db = dbFactory.CreateDbContext())
             {
                 db.Tests.First(t => t.Id == test.Id).Parameters = JsonConvert.SerializeObject(parameters);
                 db.SaveChanges();
@@ -25,7 +25,7 @@ namespace ProblemSolver
 
         public static async Task SetParametersAsync<T>(this Test test, T parameters, EulerDbContextFactory dbFactory) where T : IProblemParameters
         {
-            using (var db = dbFactory.CreateDbContext())
+            using (EulerDbContext? db = dbFactory.CreateDbContext())
             {
                 (await db.Tests.FirstAsync(t => t.Id == test.Id)).Parameters = JsonConvert.SerializeObject(parameters);
                 await db.SaveChangesAsync();

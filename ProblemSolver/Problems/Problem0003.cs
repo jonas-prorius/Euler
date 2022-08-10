@@ -10,11 +10,9 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0003 : IProblem
     {
-        public int ProblemId => 3;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0003Config>();
+            Problem0003Config config = test.GetParameters<Problem0003Config>();
             return Task.FromResult(config.Number.GetLargestFactor().ToString());
         }
     }

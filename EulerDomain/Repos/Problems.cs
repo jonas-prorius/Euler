@@ -38,7 +38,7 @@ namespace EulerDomain.Repos
 
         public async Task SetIsSolvedAsync(int problemId, bool isSolved)
         {
-            var problem = await _dbContext.Problems
+            Problem? problem = await _dbContext.Problems
                 .FirstAsync(p => p.Id == problemId);
 
             problem.IsSolved = isSolved;

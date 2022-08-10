@@ -12,7 +12,7 @@ namespace Prepper
         public static void Main(string[] args)
         {
             string connectionString = @"Server=srv-home,1435;Database=Euler;User Id=sa;Password=mssql-euler2;";
-            var dbFactory = new EulerDbContextFactory(connectionString);
+            EulerDbContextFactory? dbFactory = new(connectionString);
             DbContextOptions<EulerDbContext> dbContextOptions = new();
             DbContextOptionsBuilder optionsBuilder = new(dbContextOptions);
             optionsBuilder.UseSqlServer(connectionString);

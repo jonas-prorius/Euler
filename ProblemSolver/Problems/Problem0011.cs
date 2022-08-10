@@ -36,8 +36,6 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0011 : IProblem
     {
-        public int ProblemId => 11;
-
         private static readonly string[] _problemData = {
             "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08",
             "49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00",
@@ -63,7 +61,7 @@ namespace ProblemSolver.Problems
 
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0011Config>();
+            Problem0011Config config = test.GetParameters<Problem0011Config>();
 
             long[][] grid = _problemData.Select(l => l.Split(' ').Select(x => long.Parse(x)).ToArray()).ToArray();
             List<List<long>> segments = new();
@@ -104,7 +102,7 @@ namespace ProblemSolver.Problems
                     segments.Add(segment);
                 }
             long max = 0;
-            foreach (var segment in segments)
+            foreach (List<long>? segment in segments)
                 max = Math.Max(max, segment.Product());
 
             return Task.FromResult(max.ToString());

@@ -23,7 +23,7 @@ namespace Prepper.Workers
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            List<Test> tests = new List<Test>
+            List<Test> tests = new()
             {
                 new Test(1, false, JsonConvert.SerializeObject(new Problem0001Config { Roof = 10 }), "23"),
                 new Test(1, true, JsonConvert.SerializeObject(new Problem0001Config { Roof = 1000 })),
@@ -52,11 +52,11 @@ namespace Prepper.Workers
                 new Test(47, true, JsonConvert.SerializeObject(new Problem0047Config { ConsecutivesAndDistinct = 4 })),
             };
 
-            using (var db = _dbFactory.CreateDbContext())
+            using (EulerDbContext? db = _dbFactory.CreateDbContext())
             {
-                foreach (var test in tests)
+                foreach (Test? test in tests)
                 {
-                    var problem = db.Problems.Include(p => p.Tests).FirstOrDefault(p => p.Id == test.ProblemId);
+                    Problem? problem = db.Problems.Include(p => p.Tests).FirstOrDefault(p => p.Id == test.ProblemId);
 
                     if (problem == null)
                     {

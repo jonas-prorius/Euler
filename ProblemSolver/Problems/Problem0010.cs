@@ -11,15 +11,11 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0010 : IProblem
     {
-        public int ProblemId => 10;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0010Config>();
+            Problem0010Config config = test.GetParameters<Problem0010Config>();
 
             long sum = 0;
-
-            List<long> primes = new List<long>();
 
             for (long number = 2; number < config.Roof; number++)
             {

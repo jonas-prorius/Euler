@@ -17,11 +17,9 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0014 : IProblem
     {
-        public int ProblemId => 14;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0014Config>();
+            Problem0014Config config = test.GetParameters<Problem0014Config>();
 
             Dictionary<long, List<long>> results = new();
             for (long i = config.MinStart; i <= config.MaxStart; i++)

@@ -8,10 +8,10 @@ namespace ProblemSolver
     {
         public static List<Type> GetProblemTypes()
         {
-            var a = AppDomain.CurrentDomain.GetAssemblies();
-            var b = a.SelectMany(a => a.GetTypes());
-            var c = b.Where(t => !string.IsNullOrEmpty(t?.FullName));
-            var d = c.Where(t => t.FullName.Contains("ProblemSolver.Problems.Problem"));
+            System.Reflection.Assembly[]? a = AppDomain.CurrentDomain.GetAssemblies();
+            IEnumerable<Type>? b = a.SelectMany(a => a.GetTypes());
+            IEnumerable<Type>? c = b.Where(t => !string.IsNullOrEmpty(t?.FullName));
+            IEnumerable<Type>? d = c.Where(t => t.FullName.Contains("ProblemSolver.Problems.Problem"));
 
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
@@ -22,7 +22,7 @@ namespace ProblemSolver
 
         public static IProblem GetProblemInstance(int problemId)
         {
-            var problem = GetProblemTypes()
+            Type? problem = GetProblemTypes()
                 .First(t => t.FullName == $"ProblemSolver.Problems.Problem{problemId:0000}");
 
             return (IProblem)Activator.CreateInstance(problem);
@@ -30,7 +30,7 @@ namespace ProblemSolver
 
         public static List<IProblem> GetProblemInstances()
         {
-            var problems = GetProblemTypes();
+            List<Type>? problems = GetProblemTypes();
 
             return problems
                 .Select(t => (IProblem)Activator.CreateInstance(t))

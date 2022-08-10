@@ -15,17 +15,17 @@ namespace ProblemsTests
         [TestMethod]
         public async Task TestProblems()
         {
-            var repo = new EulerRepo(new EulerDbContextFactory(connectionString));
-            var tests = repo.Tests.GetAll(false);
-            var problems = repo.Problems.GetAll();
+            EulerRepo? repo = new(new EulerDbContextFactory(connectionString));
+            System.Collections.Generic.List<EulerDb.Entities.Test>? tests = repo.Tests.GetAll(false);
+            System.Collections.Generic.List<EulerDb.Entities.Problem>? problems = repo.Problems.GetAll();
 
-            foreach (var problem in problems)
+            foreach (EulerDb.Entities.Problem? problem in problems)
                 Assert.IsTrue(tests.Any(t => t.ProblemId == problem.Id));
 
-            foreach (var test in tests)
+            foreach (EulerDb.Entities.Test? test in tests)
                 Assert.IsTrue(problems.Any(p => p.Id == test.ProblemId));
 
-            foreach (var test in tests)
+            foreach (EulerDb.Entities.Test? test in tests)
                 Assert.AreEqual(test.Answer, await test.Run());
         }
     }

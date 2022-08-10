@@ -60,7 +60,7 @@ namespace EulerDomain.Repos
 
         public async Task SetAnswerAsync(int testId, string answer)
         {
-            var test = await _dbContext.Tests.FirstAsync(t => t.Id == testId && t.IsProblem);
+            Test? test = await _dbContext.Tests.FirstAsync(t => t.Id == testId && t.IsProblem);
             test.Answer = answer;
             await _dbContext.SaveChangesAsync();
         }

@@ -17,15 +17,13 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0047 : IProblem
     {
-        public int ProblemId => 47;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0047Config>();
+            Problem0047Config config = test.GetParameters<Problem0047Config>();
 
             long current = 1;
 
-            Queue<long> numbers = new Queue<long>();
+            Queue<long> numbers = new();
 
             while (numbers.Count != config.ConsecutivesAndDistinct)
             {
@@ -36,7 +34,7 @@ namespace ProblemSolver.Problems
                     continue;
                 }
 
-                var factors = (current.GetPrimeFactors()).Distinct();
+                IEnumerable<long>? factors = (current.GetPrimeFactors()).Distinct();
                 if (factors.Count() != config.ConsecutivesAndDistinct)
                 {
                     numbers.Clear();

@@ -5,8 +5,6 @@ namespace ProblemSolver
 {
     public interface IProblem
     {
-        public abstract int ProblemId { get; }
-
         public abstract Task<string> Run(Test test);
     }
 

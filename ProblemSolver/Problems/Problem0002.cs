@@ -10,8 +10,6 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0002 : IProblem
     {
-        public int ProblemId => 2;
-
         public static Task<string> Run(Problem0002Config config)
         {
             long f1 = 1;
@@ -32,7 +30,7 @@ namespace ProblemSolver.Problems
 
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0002Config>();
+            Problem0002Config config = test.GetParameters<Problem0002Config>();
 
             long f1 = 1;
             long f2 = 2;

@@ -10,11 +10,9 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0007 : IProblem
     {
-        public int ProblemId => 7;
-
         public Task<string> Run(Test test)
         {
-            var config = test.GetParameters<Problem0007Config>();
+            Problem0007Config config = test.GetParameters<Problem0007Config>();
 
             long primeNo = 0;
             long current = 0;
