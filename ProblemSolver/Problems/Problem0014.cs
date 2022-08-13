@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using EulerDb.Entities;
+using EulerHelper;
 
 namespace ProblemSolver.Problems
 {
@@ -17,6 +17,8 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0014 : IProblem
     {
+        public bool IsSelfContained => false;
+
         public Task<string> Run(Test test)
         {
             Problem0014Config config = test.GetParameters<Problem0014Config>();
@@ -28,7 +30,7 @@ namespace ProblemSolver.Problems
                 long current = i;
                 while (current != 1)
                 {
-                    current = NextCollatz(current);
+                    current = Miscellaneous.NextCollatz(current);
                     count++;
                 }
                 if (!results.ContainsKey(count))
@@ -37,13 +39,6 @@ namespace ProblemSolver.Problems
                     results[count].Add(i);
             }
             return Task.FromResult(results[results.Keys.Max()].First().ToString());
-        }
-
-        private static long NextCollatz(long current)
-        {
-            if (current % 2 == 0)
-                return current / 2;
-            else return 3 * current + 1;
         }
     }
 

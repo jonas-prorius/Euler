@@ -21,9 +21,6 @@ namespace ProblemsTests
             List<Test>? tests = repo.Tests.GetAll(false);
             List<Problem>? problems = repo.Problems.GetAll();
 
-            foreach (Problem? problem in problems)
-                Assert.IsTrue(tests.Any(t => t.ProblemId == problem.Id));
-
             foreach (Test? test in tests)
                 Assert.IsTrue(problems.Any(p => p.Id == test.ProblemId));
 

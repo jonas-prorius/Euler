@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EulerDb.Entities;
+using EulerHelper;
 using EulerMath;
 
 namespace ProblemSolver.Problems
@@ -12,26 +13,19 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0005 : IProblem
     {
+        public bool IsSelfContained => false;
+
         public Task<string> Run(Test test)
         {
             Problem0005Config config = test.GetParameters<Problem0005Config>();
 
-            List<long>? factors = CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
+            List<long>? factors = Miscellaneous.CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
             long start = factors[0] * factors[1];
             for (long? i = start; i < factors.Product(); i += factors.Last())
                 if (factors.All(f => i % f == 0))
                     return Task.FromResult(i.ToString());
 
             return Task.FromResult(default(string));
-        }
-
-        private static List<long> CreateLongList(long from, long to, long interval = 1)
-        {
-            List<long> result = new();
-            for (long i = from; i <= to; i += interval)
-                result.Add(i);
-
-            return result;
         }
     }
 

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EulerDomain\EulerDomain.csproj" />
+    <ProjectReference Include="..\EulerHelper\EulerHelper.csproj" />
     <ProjectReference Include="..\EulerMath\EulerMath.csproj" />
   </ItemGroup>
 

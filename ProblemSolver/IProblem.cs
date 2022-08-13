@@ -5,6 +5,8 @@ namespace ProblemSolver
 {
     public interface IProblem
     {
+        public abstract bool IsSelfContained { get; }
+
         public abstract Task<string> Run(Test test);
     }
 

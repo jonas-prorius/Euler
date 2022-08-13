@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EulerDb.Entities;
 using EulerMath;
 
@@ -11,6 +10,8 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0010 : IProblem
     {
+        public bool IsSelfContained => false;
+
         public Task<string> Run(Test test)
         {
             Problem0010Config config = test.GetParameters<Problem0010Config>();

@@ -10,23 +10,7 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0002 : IProblem
     {
-        public static Task<string> Run(Problem0002Config config)
-        {
-            long f1 = 1;
-            long f2 = 2;
-            long f3;
-            long sum = 2;
-            while (f1 + f2 <= config.MaxValue)
-            {
-                f3 = f1 + f2;
-                f1 = f2;
-                f2 = f3;
-                if (f3 % 2 == 0)
-                    sum += f3;
-            }
-
-            return Task.FromResult(sum.ToString());
-        }
+        public bool IsSelfContained => true;
 
         public Task<string> Run(Test test)
         {

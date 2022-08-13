@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EulerDb.Entities;
+using EulerHelper;
 
 namespace ProblemSolver.Problems
 {
@@ -12,6 +13,8 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0004 : IProblem
     {
+        public bool IsSelfContained => false;
+
         public Task<string> Run(Test test)
         {
             Problem0004Config config = test.GetParameters<Problem0004Config>();
@@ -19,16 +22,10 @@ namespace ProblemSolver.Problems
             List<long> result = new();
             for (int i = (int)Math.Pow(10, config.Digits - 1); i < Math.Pow(10, config.Digits); i++)
                 for (int j = (int)Math.Pow(10, config.Digits - 1); j < Math.Pow(10, config.Digits); j++)
-                    if (IsPalindrome((i * j).ToString()))
+                    if (Miscellaneous.IsPalindrome((i * j).ToString()))
                         result.Add(i * j);
 
             return Task.FromResult(result.Max().ToString());
-        }
-
-        private static bool IsPalindrome(string s)
-        {
-            string z = new(s.Reverse().ToArray());
-            return s == z;
         }
     }
 

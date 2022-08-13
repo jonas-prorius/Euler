@@ -31,6 +31,8 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0008 : IProblem
     {
+        public bool IsSelfContained => false;
+
         public Task<string> Run(Test test)
         {
             Problem0008Config config = test.GetParameters<Problem0008Config>();

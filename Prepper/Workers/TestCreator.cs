@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,11 +46,13 @@ namespace Prepper.Workers
                 new Test(10, true, JsonConvert.SerializeObject(new Problem0010Config { Roof = 2000000 })),
                 new Test(11, false, JsonConvert.SerializeObject(new Problem0011Config { SegmentLength = 1 }), "99"),
                 new Test(11, true, JsonConvert.SerializeObject(new Problem0011Config { SegmentLength = 4 })),
+                new Test(13, true, null),
                 new Test(14, false, JsonConvert.SerializeObject(new Problem0014Config { MinStart = 13, MaxStart = 13 }), "13"),
                 new Test(14, true, JsonConvert.SerializeObject(new Problem0014Config { MinStart = 2, MaxStart = 1000000 })),
                 new Test(47, false, JsonConvert.SerializeObject(new Problem0047Config { ConsecutivesAndDistinct = 2 }), "14"),
                 new Test(47, false, JsonConvert.SerializeObject(new Problem0047Config { ConsecutivesAndDistinct = 3 }), "644"),
                 new Test(47, true, JsonConvert.SerializeObject(new Problem0047Config { ConsecutivesAndDistinct = 4 })),
+                new Test(317, true, JsonConvert.SerializeObject(new Problem0317Config { Height = 100, InitSpeed = 20, Gravity = 9.81 })),
             };
 
             using (EulerDbContext? db = _dbFactory.CreateDbContext())

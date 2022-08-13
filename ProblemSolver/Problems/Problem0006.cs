@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EulerDb.Entities;
+using EulerHelper;
 
 namespace ProblemSolver.Problems
 {
@@ -16,24 +17,17 @@ namespace ProblemSolver.Problems
     /// </summary>
     public class Problem0006 : IProblem
     {
+        public bool IsSelfContained => false;
+
         public Task<string> Run(Test test)
         {
             Problem0006Config config = test.GetParameters<Problem0006Config>();
 
-            List<long>? numbers = CreateLongList(1, config.NumbersToRun);
+            List<long>? numbers = Miscellaneous.CreateLongList(1, config.NumbersToRun);
             long sumSquare = (long)Math.Pow(numbers.Sum(), 2);
             long squareSum = numbers.Sum(n => (long)Math.Pow(n, 2));
 
             return Task.FromResult(Math.Abs(sumSquare - squareSum).ToString());
-        }
-
-        private static List<long> CreateLongList(long from, long to, long interval = 1)
-        {
-            List<long> result = new();
-            for (long i = from; i <= to; i += interval)
-                result.Add(i);
-
-            return result;
         }
     }
 
