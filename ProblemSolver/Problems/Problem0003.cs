@@ -15,7 +15,8 @@ namespace ProblemSolver.Problems
         public Task<string> Run(Test test)
         {
             Problem0003Config config = test.GetParameters<Problem0003Config>();
-            return Task.FromResult(config.Number.GetLargestFactor().ToString());
+            long? largestFactor = config.Number.GetLargestFactor();
+            return Task.FromResult((largestFactor ?? config.Number).ToString());
         }
     }
 

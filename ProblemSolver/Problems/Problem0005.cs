@@ -19,13 +19,13 @@ namespace ProblemSolver.Problems
         {
             Problem0005Config config = test.GetParameters<Problem0005Config>();
 
-            List<long>? factors = Miscellaneous.CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
+            List<long> factors = Miscellaneous.CreateLongList(2, config.Numbers).OrderByDescending(f => f).ToList();
             long start = factors[0] * factors[1];
-            for (long? i = start; i < factors.Product(); i += factors.Last())
+            for (long i = start; i < factors.Product(); i += factors.Last())
                 if (factors.All(f => i % f == 0))
                     return Task.FromResult(i.ToString());
 
-            return Task.FromResult(default(string));
+            return Task.FromResult(factors.Product().ToString());
         }
     }
 

@@ -18,7 +18,7 @@ namespace ProblemSolver.Problems
     {
         public bool IsSelfContained => true;
 
-        public async Task<string> Run(Test test)
+        public Task<string> Run(Test test)
         {
             Problem0317Config config = test.GetParameters<Problem0317Config>();
 
@@ -71,7 +71,7 @@ namespace ProblemSolver.Problems
 
             double volume = area * 2 * Math.PI;
 
-            return (area * 2 * Math.PI).ToString("0.0000");
+            return Task.FromResult((area * 2 * Math.PI).ToString("0.0000"));
         }
     }
 
